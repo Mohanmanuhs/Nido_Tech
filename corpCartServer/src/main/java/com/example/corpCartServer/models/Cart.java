@@ -19,7 +19,6 @@ import java.util.List;
 public class Cart {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long cartId;
 
     @OneToOne
@@ -30,11 +29,11 @@ public class Cart {
     private Customer customer;
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CartItem> items = new ArrayList<>();
+    private List<CartItem> cartItems = new ArrayList<>();
 
     public double getTotalAmount() {
-        return items.stream()
-                    .mapToDouble(item -> item.getProduct().getPrice() * item.getQuantity())
+        return cartItems.stream()
+                    .mapToDouble(item -> item.getProduct().getProductPrice() * item.getCartItemQuantity())
                     .sum();
     }
 }

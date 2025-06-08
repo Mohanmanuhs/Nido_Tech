@@ -41,18 +41,18 @@ public class CartService {
                     return cartRepo.save(newCart);
                 });
 
-        Optional<CartItem> existingItem = cart.getItems().stream()
-                .filter(item -> item.getProduct().getId().equals(productId))
+        Optional<CartItem> existingItem = cart.getCartItems().stream()
+                .filter(item -> item.getProduct().getProductId().equals(productId))
                 .findFirst();
 
         if (existingItem.isPresent()) {
-            existingItem.get().setQuantity(existingItem.get().getQuantity() + quantity);
+            existingItem.get().setCartItemQuantity(existingItem.get().getCartItemQuantity() + quantity);
         } else {
             CartItem item = new CartItem();
             item.setCart(cart);
             item.setProduct(productRepo.findById(productId).orElseThrow());
-            item.setQuantity(quantity);
-            cart.getItems().add(item);
+            item.setCartItemQuantity(quantity);
+            cart.getCartItems().add(item);
         }
 
         return cartRepo.save(cart);
@@ -60,24 +60,24 @@ public class CartService {
 
     public Cart updateCartItem(Long userId, Long itemId, int quantity) {
         Cart cart = cartRepo.findByCustomer_UserId(userId).orElseThrow();
-        CartItem item = cart.getItems().stream()
-                .filter(i -> i.getId().equals(itemId))
+        CartItem item = cart.getCartItems().stream()
+                .filter(i -> i.getCartItemId().equals(itemId))
                 .findFirst()
                 .orElseThrow();
 
-        item.setQuantity(quantity);
+        item.setCartItemQuantity(quantity);
         return cartRepo.save(cart);
     }
 
     public Cart removeItemFromCart(Long userId, Long itemId) {
         Cart cart = cartRepo.findByCustomer_UserId(userId).orElseThrow();
-        cart.getItems().removeIf(item -> item.getId().equals(itemId));
+        cart.getCartItems().removeIf(item -> item.getCartItemId().equals(itemId));
         return cartRepo.save(cart);
     }
 
     public Cart clearCart(Long userId) {
         Cart cart = cartRepo.findByCustomer_UserId(userId).orElseThrow();
-        cart.getItems().clear();
+        cart.getCartItems().clear();
         return cartRepo.save(cart);
     }
 }

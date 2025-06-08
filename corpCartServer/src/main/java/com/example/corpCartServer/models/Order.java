@@ -2,10 +2,12 @@ package com.example.corpCartServer.models;
 
 import com.example.corpCartServer.constants.OrderStatus;
 import com.example.corpCartServer.models.user.Customer;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -23,7 +25,7 @@ public class Order {
     private Long orderId;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id")
+    @JoinColumn(name = "customerId")
     @JsonManagedReference
     private Customer customer;
 
@@ -32,9 +34,17 @@ public class Order {
     private double totalAmount;
 
     @Enumerated(EnumType.STRING)
-    private OrderStatus status;
+    private OrderStatus orderStatus;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     @JsonManagedReference
-    private List<OrderItem> items;
+    private List<OrderItem> orderItems;
+
+    private LocalDate shippingDate;
+
+    private LocalDate expectedDeliveryDate;
+
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+    @JsonBackReference
+    private Payment payment;
 }
