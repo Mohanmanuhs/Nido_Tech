@@ -32,7 +32,7 @@ public class ProductController {
             @PathVariable Long categoryId,
             @RequestBody ProductDto productDto
     ) {
-        Category category = (Category) categoryService.getCategoryById(categoryId).get();
+        Category category = categoryService.getCategoryById(categoryId);
         Product product = ProductMapper.dtoToProduct(productDto,new Product(),category);
         productService.createProduct(product);
         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -58,17 +58,19 @@ public class ProductController {
         return ResponseEntity.ok(ProductMapper.productToDto(product,new ProductDto()));
     }
 
+    @PutMapping("changeCategory/{productId}/{categoryId}")
+    public ResponseEntity<ProductDto> changeProductCategory(@PathVariable Long productId, @PathVariable Long categoryId) {
+        Product oldProduct = productService.getProductById(productId);
+        Category newCategory = categoryService.getCategoryById(categoryId);
+        oldProduct.setCategory(newCategory);
+        productService.updateProduct(productId,oldProduct);
+        return ResponseEntity.ok(ProductMapper.productToDto(oldProduct,new ProductDto()));
+    }
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
         return ResponseEntity.noContent().build();
-    }
-
-    @GetMapping("/category/{categoryId}")
-    public ResponseEntity<List<ProductDto>> getProductsByCategory(@PathVariable Long categoryId) {
-        List<ProductDto> products = productService.getProductsByCategoryId(categoryId)
-                .stream().map(product -> ProductMapper.productToDto(product,new ProductDto())).toList();
-        return ResponseEntity.ok(products);
     }
 
     @GetMapping("/search")

@@ -1,6 +1,10 @@
 package com.example.corpCartServer.controller;
 
 
+import com.example.corpCartServer.dto.CategoryDto;
+import com.example.corpCartServer.dto.ProductDto;
+import com.example.corpCartServer.mapper.CategoryMapper;
+import com.example.corpCartServer.mapper.ProductMapper;
 import com.example.corpCartServer.models.Category;
 import com.example.corpCartServer.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,33 +22,37 @@ public class CategoryController {
 
     // Get all categories
     @GetMapping
-    public List<Category> getAllCategories() {
+    public List<CategoryDto> getAllCategories() {
         return categoryService.getAllCategories();
     }
 
-    // Get a category by ID
     @GetMapping("/{id}")
     public ResponseEntity<?> getCategoryById(@PathVariable Long id) {
-        return categoryService.getCategoryById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        return ResponseEntity.ok(categoryService.getCategoryById(id));
     }
 
-    // Create a new category
+    @GetMapping("getProducts/{categoryId}")
+    public ResponseEntity<List<ProductDto>> getProductsByCategory(@PathVariable Long categoryId) {
+        List<ProductDto> products = categoryService.getProductsByCategoryId(categoryId)
+                .stream().map(product -> ProductMapper.productToDto(product,new ProductDto())).toList();
+        return ResponseEntity.ok(products);
+    }
+
     @PostMapping
-    public ResponseEntity<Category> createCategory(@RequestBody Category category) {
+    public ResponseEntity<Category> createCategory(@RequestBody CategoryDto categoryDto) {
+        Category category = CategoryMapper.dtoToCategory(categoryDto,new Category());
         return ResponseEntity.ok(categoryService.createCategory(category));
     }
 
-    // Update an existing category
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateCategory(@PathVariable Long id, @RequestBody Category category) {
+    public ResponseEntity<?> updateCategory(@PathVariable Long id, @RequestBody CategoryDto categoryDto) {
+        Category oldCategory = categoryService.getCategoryById(id);
+        Category category = CategoryMapper.dtoToCategory(categoryDto,oldCategory);
         return categoryService.updateCategory(id, category)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // Delete a category
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
         if (categoryService.deleteCategory(id)) {
