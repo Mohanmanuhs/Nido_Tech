@@ -1,11 +1,9 @@
 package com.example.corpCartServer.constants;
 
 public enum OrderStatus {
-    PENDING,
+    PLACED,
     SHIPPED,
     DELIVERED,
     CANCELLED,
-    PAID,
-    PROCESSING,
     OUT_FOR_DELIVERY
 }

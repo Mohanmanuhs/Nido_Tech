@@ -26,5 +26,7 @@ public class CartItem {
     @JsonManagedReference
     private Product product;
 
-    private int cartItemQuantity;
+    private Integer cartItemQuantity;
+
+    private double cartItemPrice;
 }

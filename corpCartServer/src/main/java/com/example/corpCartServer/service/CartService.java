@@ -53,6 +53,7 @@ public class CartService {
                 });
 
         item.setCartItemQuantity(dto.getCartItemQuantity());
+        item.setCartItemPrice(dto.getCartItemQuantity()*product.getProductPrice());
 
         return cartRepo.save(cart);
     }
@@ -62,6 +63,7 @@ public class CartService {
                 .orElseThrow(() -> new NoSuchElementException("CartItem not found for user"));
 
         item.setCartItemQuantity(dto.getCartItemQuantity());
+        item.setCartItemPrice(dto.getCartItemQuantity()*item.getProduct().getProductPrice());
 
         return cartRepo.save(item.getCart());
     }

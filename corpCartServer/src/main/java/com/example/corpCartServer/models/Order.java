@@ -1,8 +1,8 @@
 package com.example.corpCartServer.models;
 
 import com.example.corpCartServer.constants.OrderStatus;
+import com.example.corpCartServer.constants.PaymentStatus;
 import com.example.corpCartServer.models.user.Customer;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -36,15 +36,13 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
+    @Enumerated(EnumType.STRING)
+    private PaymentStatus paymentStatus;
+
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<OrderItem> orderItems;
 
-    private LocalDate shippingDate;
-
     private LocalDate expectedDeliveryDate;
 
-    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
-    @JsonBackReference
-    private Payment payment;
 }

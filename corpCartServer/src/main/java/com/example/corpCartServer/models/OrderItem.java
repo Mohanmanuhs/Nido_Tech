@@ -26,7 +26,7 @@ public class OrderItem {
     @JsonManagedReference
     private Product product;
 
-    private int orderItemQuantity;
+    private Integer orderItemQuantity;
 
-    private double orderItemPrice;
+    private Double orderItemPrice;
 }
