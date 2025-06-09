@@ -1,6 +1,10 @@
 package com.example.corpCartServer.controller;
 
 
+import com.example.corpCartServer.dto.CartDto;
+import com.example.corpCartServer.dto.CartItemRequestDto;
+import com.example.corpCartServer.dto.CartItemUpdateRequestDto;
+import com.example.corpCartServer.mapper.CartMapper;
 import com.example.corpCartServer.models.Cart;
 import com.example.corpCartServer.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,41 +12,31 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
-
 @Controller
-@RequestMapping("order/")
+@RequestMapping("cart/")
 public class CartController {
     @Autowired
     private CartService cartService;
 
-    // Get cart by user ID
-    @GetMapping("/{userId}")
-    public ResponseEntity<Cart> getCartByUserId(@PathVariable Long userId) {
-        Optional<Cart> cart = cartService.getCartByUserId(userId);
-        return cart.map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    @GetMapping("/get/{userId}")
+    public ResponseEntity<CartDto> getCart(@PathVariable Long userId) {
+        Cart cart = cartService.getCartByUserId(userId);
+        CartDto cartDto = CartMapper.cartToDto(cart,new CartDto());
+        return ResponseEntity.ok(cartDto);
     }
 
-    // Add item to cart
     @PostMapping("/{userId}/items")
-    public ResponseEntity<Cart> addItemToCart(
-            @PathVariable Long userId,
-            @RequestParam Long productId,
-            @RequestParam int quantity) {
-        return ResponseEntity.ok(cartService.addItemToCart(userId, productId, quantity));
+    public ResponseEntity<Cart> addItemToCart(@PathVariable Long userId,@RequestBody CartItemRequestDto dto) {
+        return ResponseEntity.ok(cartService.addItemToCart(userId, dto));
     }
 
-    // Update item quantity
-    @PutMapping("/{userId}/items/{itemId}")
+    @PutMapping("/{userId}/items/{cartItemId}")
     public ResponseEntity<Cart> updateCartItem(
             @PathVariable Long userId,
-            @PathVariable Long itemId,
-            @RequestParam int quantity) {
-        return ResponseEntity.ok(cartService.updateCartItem(userId, itemId, quantity));
+            @RequestBody CartItemUpdateRequestDto dto) {
+        return ResponseEntity.ok(cartService.updateCartItem(userId,dto));
     }
 
-    // Remove item from cart
     @DeleteMapping("/{userId}/items/{itemId}")
     public ResponseEntity<Cart> removeItem(
             @PathVariable Long userId,
@@ -50,7 +44,6 @@ public class CartController {
         return ResponseEntity.ok(cartService.removeItemFromCart(userId, itemId));
     }
 
-    // Clear the entire cart
     @DeleteMapping("/{userId}/clear")
     public ResponseEntity<Cart> clearCart(@PathVariable Long userId) {
         return ResponseEntity.ok(cartService.clearCart(userId));

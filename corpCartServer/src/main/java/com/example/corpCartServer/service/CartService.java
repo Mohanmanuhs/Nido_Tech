@@ -1,9 +1,11 @@
 package com.example.corpCartServer.service;
 
 
+import com.example.corpCartServer.dto.CartItemRequestDto;
+import com.example.corpCartServer.dto.CartItemUpdateRequestDto;
 import com.example.corpCartServer.models.Cart;
 import com.example.corpCartServer.models.CartItem;
-import com.example.corpCartServer.models.user.Customer;
+import com.example.corpCartServer.models.Product;
 import com.example.corpCartServer.repository.CartItemRepo;
 import com.example.corpCartServer.repository.CartRepo;
 import com.example.corpCartServer.repository.ProductRepo;
@@ -11,7 +13,7 @@ import com.example.corpCartServer.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.NoSuchElementException;
 
 @Service
 public class CartService {
@@ -29,55 +31,54 @@ public class CartService {
     @Autowired
     private ProductRepo productRepo;
 
-    public Optional<Cart> getCartByUserId(Long userId) {
+    public Cart getCartByUserId(Long userId) {
         return cartRepo.findByCustomer_UserId(userId);
     }
 
-    public Cart addItemToCart(Long userId, Long productId, int quantity) {
-        Cart cart = cartRepo.findByCustomer_UserId(userId)
+    public Cart addItemToCart(Long userId, CartItemRequestDto dto) {
+        Cart cart = cartRepo.findByCustomer_UserId(userId);
+
+        Product product = productRepo.findById(dto.getProductId())
+                .orElseThrow(() -> new NoSuchElementException("product not found for user"));
+
+        CartItem item = cart.getCartItems().stream()
+                .filter(ci -> ci.getProduct().getProductId().equals(dto.getProductId()))
+                .findFirst()
                 .orElseGet(() -> {
-                    Cart newCart = new Cart();
-                    newCart.setCustomer((Customer) UserRepo.findById(userId).orElseThrow());
-                    return cartRepo.save(newCart);
+                    CartItem newItem = new CartItem();
+                    newItem.setCart(cart);
+                    newItem.setProduct(product);
+                    cart.getCartItems().add(newItem);
+                    return newItem;
                 });
 
-        Optional<CartItem> existingItem = cart.getCartItems().stream()
-                .filter(item -> item.getProduct().getProductId().equals(productId))
-                .findFirst();
-
-        if (existingItem.isPresent()) {
-            existingItem.get().setCartItemQuantity(existingItem.get().getCartItemQuantity() + quantity);
-        } else {
-            CartItem item = new CartItem();
-            item.setCart(cart);
-            item.setProduct(productRepo.findById(productId).orElseThrow());
-            item.setCartItemQuantity(quantity);
-            cart.getCartItems().add(item);
-        }
+        item.setCartItemQuantity(dto.getCartItemQuantity());
 
         return cartRepo.save(cart);
     }
 
-    public Cart updateCartItem(Long userId, Long itemId, int quantity) {
-        Cart cart = cartRepo.findByCustomer_UserId(userId).orElseThrow();
-        CartItem item = cart.getCartItems().stream()
-                .filter(i -> i.getCartItemId().equals(itemId))
-                .findFirst()
-                .orElseThrow();
+    public Cart updateCartItem(Long userId, CartItemUpdateRequestDto dto) {
+        CartItem item = cartItemRepo.findByCart_Customer_UserIdAndCartItemId(userId, dto.getCartItemId())
+                .orElseThrow(() -> new NoSuchElementException("CartItem not found for user"));
 
-        item.setCartItemQuantity(quantity);
-        return cartRepo.save(cart);
+        item.setCartItemQuantity(dto.getCartItemQuantity());
+
+        return cartRepo.save(item.getCart());
     }
 
     public Cart removeItemFromCart(Long userId, Long itemId) {
-        Cart cart = cartRepo.findByCustomer_UserId(userId).orElseThrow();
-        cart.getCartItems().removeIf(item -> item.getCartItemId().equals(itemId));
-        return cartRepo.save(cart);
+        CartItem item = cartItemRepo.findByCart_Customer_UserIdAndCartItemId(userId, itemId)
+                .orElseThrow(() -> new NoSuchElementException("CartItem not found for user"));
+
+        cartItemRepo.delete(item);
+        return cartRepo.findByCustomer_UserId(userId);
     }
 
     public Cart clearCart(Long userId) {
-        Cart cart = cartRepo.findByCustomer_UserId(userId).orElseThrow();
-        cart.getCartItems().clear();
+        Cart cart = cartRepo.findByCustomer_UserId(userId);
+        if (!cart.getCartItems().isEmpty()) {
+            cart.getCartItems().clear();
+        }
         return cartRepo.save(cart);
     }
 }
