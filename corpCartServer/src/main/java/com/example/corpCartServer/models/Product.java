@@ -18,16 +18,23 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productId;
 
+    @Column(nullable = false)
     private String productName;
 
+    @Column(nullable = false)
     private String productDescription;
 
+    @Column(nullable = false)
     private double productPrice;
 
+    @Column(nullable = false)
     private String productImageUrl;
 
+    @Column(nullable = false)
+    private boolean isDeleted = false;
+
     @ManyToOne
-    @JoinColumn(name = "categoryId", nullable = false)
+    @JoinColumn(name = "categoryId",nullable = false)
     @JsonManagedReference
     private Category category;
 
@@ -35,7 +42,7 @@ public class Product {
     @JsonManagedReference
     private List<CartItem> cartItems;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "product", cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH})
     @JsonManagedReference
     private List<OrderItem> orderItems;
 

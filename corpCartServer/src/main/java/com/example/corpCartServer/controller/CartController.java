@@ -26,26 +26,30 @@ public class CartController {
     }
 
     @PostMapping("/{userId}/items")
-    public ResponseEntity<Cart> addItemToCart(@PathVariable Long userId,@RequestBody CartItemRequestDto dto) {
-        return ResponseEntity.ok(cartService.addItemToCart(userId, dto));
+    public ResponseEntity<?> addItemToCart(@PathVariable Long userId,@RequestBody CartItemRequestDto dto) {
+        cartService.addItemToCart(userId, dto);
+        return ResponseEntity.ok("added successfully");
     }
 
     @PutMapping("/{userId}/items/{cartItemId}")
-    public ResponseEntity<Cart> updateCartItem(
+    public ResponseEntity<?> updateCartItem(
             @PathVariable Long userId,
             @RequestBody CartItemUpdateRequestDto dto) {
-        return ResponseEntity.ok(cartService.updateCartItem(userId,dto));
+        cartService.updateCartItem(userId,dto);
+        return ResponseEntity.ok("updated successfully");
     }
 
     @DeleteMapping("/{userId}/items/{itemId}")
-    public ResponseEntity<Cart> removeItem(
+    public ResponseEntity<?> removeItem(
             @PathVariable Long userId,
             @PathVariable Long itemId) {
-        return ResponseEntity.ok(cartService.removeItemFromCart(userId, itemId));
+        cartService.removeItemFromCart(userId, itemId);
+        return ResponseEntity.ok("removed successfully");
     }
 
     @DeleteMapping("/{userId}/clear")
-    public ResponseEntity<Cart> clearCart(@PathVariable Long userId) {
-        return ResponseEntity.ok(cartService.clearCart(userId));
+    public ResponseEntity<?> clearCart(@PathVariable Long userId) {
+        cartService.clearCart(userId);
+        return ResponseEntity.ok("cleared cart");
     }
 }

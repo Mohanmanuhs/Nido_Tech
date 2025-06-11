@@ -27,11 +27,11 @@ public class Customer extends User {
     @Column(nullable = false)
     private String phone;
 
-    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
     @JsonManagedReference
     private Cart cart;
 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<Order> orders = new ArrayList<>();
 

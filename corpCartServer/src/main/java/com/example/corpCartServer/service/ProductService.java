@@ -31,8 +31,8 @@ public class ProductService {
         return null;
     }
 
-    public Product updateProduct(Long id, Product updatedProduct) {
-        return null;
+    public Product updateProduct(Product updatedProduct) {
+        return productRepo.save(updatedProduct);
     }
 
     public void deleteProduct(Long id) {

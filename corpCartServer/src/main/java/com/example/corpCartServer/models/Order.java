@@ -25,24 +25,29 @@ public class Order {
     private Long orderId;
 
     @ManyToOne
-    @JoinColumn(name = "customerId")
+    @JoinColumn(name = "customerId",nullable = false)
     @JsonManagedReference
     private Customer customer;
 
+    @Column(updatable = false,nullable = false)
     private LocalDateTime orderDate;
 
+    @Column(nullable = false)
     private double totalAmount;
 
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private OrderStatus orderStatus;
+    private OrderStatus orderStatus = OrderStatus.PLACED;
 
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private PaymentStatus paymentStatus;
+    private PaymentStatus paymentStatus = PaymentStatus.PENDING;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<OrderItem> orderItems;
 
+    @Column(nullable = false)
     private LocalDate expectedDeliveryDate;
 
 }

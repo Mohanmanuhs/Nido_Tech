@@ -5,6 +5,7 @@ import com.example.corpCartServer.dto.ChangePassDto;
 import com.example.corpCartServer.dto.ProfileDto;
 import com.example.corpCartServer.dto.UserLoginRequest;
 import com.example.corpCartServer.dto.UserRegisterRequest;
+import com.example.corpCartServer.models.Cart;
 import com.example.corpCartServer.models.auth.UserPrincipal;
 import com.example.corpCartServer.models.user.Admin;
 import com.example.corpCartServer.models.user.Customer;
@@ -93,6 +94,9 @@ public class UserController {
                 }
                 case CUSTOMER -> {
                     Customer customer = getCustomer(userRequest);
+                    Cart cart = new Cart();
+                    cart.setCustomer(customer);
+                    customer.setCart(cart);
                     user = customerService.createCustomer(customer);
                 }
             }

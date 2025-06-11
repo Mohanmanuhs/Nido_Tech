@@ -1,5 +1,6 @@
 package com.example.corpCartServer.models.user;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import lombok.*;
 
@@ -12,6 +13,7 @@ import lombok.*;
 @Entity
 public class Admin extends User {
 
+    @Column(nullable = false)
     private Integer securityKey;
 
 }

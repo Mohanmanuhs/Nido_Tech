@@ -54,17 +54,17 @@ public class ProductController {
     public ResponseEntity<ProductDto> updateProduct(@PathVariable Long id, @RequestBody ProductDto updatedProductDto) {
         Product oldProduct = productService.getProductById(id);
         Product newProduct = ProductMapper.dtoToProduct(updatedProductDto,oldProduct,oldProduct.getCategory());
-        Product product = productService.updateProduct(id, newProduct);
+        Product product = productService.updateProduct(newProduct);
         return ResponseEntity.ok(ProductMapper.productToDto(product,new ProductDto()));
     }
 
     @PutMapping("changeCategory/{productId}/{categoryId}")
     public ResponseEntity<ProductDto> changeProductCategory(@PathVariable Long productId, @PathVariable Long categoryId) {
-        Product oldProduct = productService.getProductById(productId);
+        Product product = productService.getProductById(productId);
         Category newCategory = categoryService.getCategoryById(categoryId);
-        oldProduct.setCategory(newCategory);
-        productService.updateProduct(productId,oldProduct);
-        return ResponseEntity.ok(ProductMapper.productToDto(oldProduct,new ProductDto()));
+        product.setCategory(newCategory);
+        productService.updateProduct(product);
+        return ResponseEntity.ok(ProductMapper.productToDto(product,new ProductDto()));
     }
 
     @DeleteMapping("/delete/{id}")

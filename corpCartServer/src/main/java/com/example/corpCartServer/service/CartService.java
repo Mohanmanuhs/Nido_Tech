@@ -35,7 +35,7 @@ public class CartService {
         return cartRepo.findByCustomer_UserId(userId);
     }
 
-    public Cart addItemToCart(Long userId, CartItemRequestDto dto) {
+    public void addItemToCart(Long userId, CartItemRequestDto dto) {
         Cart cart = cartRepo.findByCustomer_UserId(userId);
 
         Product product = productRepo.findById(dto.getProductId())
@@ -48,39 +48,34 @@ public class CartService {
                     CartItem newItem = new CartItem();
                     newItem.setCart(cart);
                     newItem.setProduct(product);
-                    cart.getCartItems().add(newItem);
                     return newItem;
                 });
-
         item.setCartItemQuantity(dto.getCartItemQuantity());
         item.setCartItemPrice(dto.getCartItemQuantity()*product.getProductPrice());
-
-        return cartRepo.save(cart);
+        cartItemRepo.save(item);
     }
 
-    public Cart updateCartItem(Long userId, CartItemUpdateRequestDto dto) {
+    public void updateCartItem(Long userId, CartItemUpdateRequestDto dto) {
         CartItem item = cartItemRepo.findByCart_Customer_UserIdAndCartItemId(userId, dto.getCartItemId())
                 .orElseThrow(() -> new NoSuchElementException("CartItem not found for user"));
 
         item.setCartItemQuantity(dto.getCartItemQuantity());
         item.setCartItemPrice(dto.getCartItemQuantity()*item.getProduct().getProductPrice());
-
-        return cartRepo.save(item.getCart());
+        cartItemRepo.save(item);
     }
 
-    public Cart removeItemFromCart(Long userId, Long itemId) {
+    public void removeItemFromCart(Long userId, Long itemId) {
         CartItem item = cartItemRepo.findByCart_Customer_UserIdAndCartItemId(userId, itemId)
                 .orElseThrow(() -> new NoSuchElementException("CartItem not found for user"));
 
         cartItemRepo.delete(item);
-        return cartRepo.findByCustomer_UserId(userId);
     }
 
-    public Cart clearCart(Long userId) {
+    public void clearCart(Long userId) {
         Cart cart = cartRepo.findByCustomer_UserId(userId);
         if (!cart.getCartItems().isEmpty()) {
             cart.getCartItems().clear();
         }
-        return cartRepo.save(cart);
+        cartRepo.save(cart);
     }
 }

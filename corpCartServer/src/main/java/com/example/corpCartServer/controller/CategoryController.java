@@ -20,7 +20,6 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
-    // Get all categories
     @GetMapping
     public List<CategoryDto> getAllCategories() {
         return categoryService.getAllCategories();
@@ -55,10 +54,7 @@ public class CategoryController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
-        if (categoryService.deleteCategory(id)) {
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        categoryService.deleteCategory(id);
+        return ResponseEntity.ok().build();
     }
 }
