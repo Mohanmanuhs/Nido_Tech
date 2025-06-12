@@ -1,16 +1,23 @@
 package com.example.corpCartServer.service;
 
 
+import com.example.corpCartServer.dto.ProductDto;
+import com.example.corpCartServer.dto.ProductRequestDto;
+import com.example.corpCartServer.exception.ResourceNotFoundException;
+import com.example.corpCartServer.mapper.ProductMapper;
+import com.example.corpCartServer.models.Category;
 import com.example.corpCartServer.models.Product;
 import com.example.corpCartServer.repository.ProductRepo;
 import com.example.corpCartServer.specification.ProductSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -18,32 +25,56 @@ public class ProductService {
     @Autowired
     private ProductRepo productRepo;
 
+    @Autowired
+    private CategoryService categoryService;
 
-    public Product createProduct(Product product) {
-        return null;
+    public void createProduct(ProductRequestDto productDto) {
+        Category category = categoryService.getCategoryById(productDto.getCategoryId());
+        Product product = ProductMapper.dtoToProduct(productDto, new Product(), category);
+        productRepo.save(product);
     }
 
-    public List<Product> getAllProducts() {
-        return null;
+    public List<ProductDto> getAllProducts() {
+        return productRepo.findAll().stream().map(
+                product->ProductMapper.productToDto(product,new ProductDto())
+        ).toList();
     }
 
     public Product getProductById(Long id) {
-        return null;
+        Optional<Product> product = productRepo.findById(id);
+        if (product.isEmpty()) {
+            throw new ResourceNotFoundException("product not found with this id");
+        }
+        return product.get();
+    }
+    public ProductDto getProductDtoById(Long id) {
+        Product product = getProductById(id);
+        return ProductMapper.productToDto(product,new ProductDto());
     }
 
-    public Product updateProduct(Product updatedProduct) {
-        return productRepo.save(updatedProduct);
+    public ProductDto updateProduct(Long productId,ProductRequestDto productRequestDto) {
+        Product oldProduct = getProductById(productId);
+        Category newCategory = categoryService.getCategoryById(productRequestDto.getCategoryId());
+        Product newProduct = ProductMapper.dtoToProduct(productRequestDto,oldProduct,newCategory);
+        newProduct = productRepo.save(newProduct);
+        return ProductMapper.productToDto(newProduct,new ProductDto());
     }
 
     public void deleteProduct(Long id) {
-
+        Product product = getProductById(id);
+        productRepo.delete(product);
     }
 
-    public List<Product> getProductsByCategoryId(Long categoryId) {
-        return null;
+    public void deactivateProduct(Long id) {
+        Product product = getProductById(id);
+        product.setDeleted(true);
+        productRepo.save(product);
     }
-    public Page<Product> searchWithFilters(String name, Double minPrice, Double maxPrice, Long categoryId, Pageable pageable) {
+
+    public Page<ProductDto> searchWithFilters(String name, Double minPrice, Double maxPrice, Long categoryId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
         Specification<Product> spec = ProductSpecification.withFilters(name, minPrice, maxPrice, categoryId);
-        return productRepo.findAll(spec, pageable);
+        Page<Product> productPage = productRepo.findAll(spec, pageable);
+        return productPage.map(product->ProductMapper.productToDto(product,new ProductDto()));
     }
 }

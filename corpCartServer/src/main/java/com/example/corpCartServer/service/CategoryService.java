@@ -2,6 +2,7 @@ package com.example.corpCartServer.service;
 
 
 import com.example.corpCartServer.dto.CategoryDto;
+import com.example.corpCartServer.exception.ResourceNotFoundException;
 import com.example.corpCartServer.mapper.CategoryMapper;
 import com.example.corpCartServer.models.Category;
 import com.example.corpCartServer.models.Product;
@@ -29,7 +30,11 @@ public class CategoryService {
     }
 
     public Category getCategoryById(Long id) {
-        return categoryRepo.findById(id).get();
+        Optional<Category> category = categoryRepo.findById(id);
+        if (category.isEmpty()) {
+            throw new ResourceNotFoundException("category with this id not exist");
+        }
+        return category.get();
     }
 
     public Category createCategory(Category category) {
