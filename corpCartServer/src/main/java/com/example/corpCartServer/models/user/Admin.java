@@ -14,6 +14,6 @@ import lombok.*;
 public class Admin extends User {
 
     @Column(nullable = false)
-    private Integer securityKey;
+    private String securityKey;
 
 }

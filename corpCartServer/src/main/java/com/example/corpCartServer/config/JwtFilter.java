@@ -4,6 +4,8 @@ package com.example.corpCartServer.config;
 import com.example.corpCartServer.service.auth.JwtService;
 import com.example.corpCartServer.service.auth.MyUserDetailsService;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.impl.DefaultClaims;
+import io.jsonwebtoken.impl.DefaultHeader;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -48,6 +50,14 @@ public class JwtFilter extends OncePerRequestFilter {
 
                 if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                     UserDetails userDetails = context.getBean(MyUserDetailsService.class).loadUserByUsername(userName);
+
+                    if(!userDetails.isEnabled()){
+                        throw new ExpiredJwtException(
+                                new DefaultHeader<>(),
+                                new DefaultClaims(),
+                                "User account is deactivated"
+                        );
+                    }
 
                     if (jwtService.validateToken(token, userDetails)) {
                         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
