@@ -1,8 +1,10 @@
 package com.example.corpCartServer.service;
 
 
+import com.example.corpCartServer.dto.PagedResponse;
 import com.example.corpCartServer.dto.ProductDto;
 import com.example.corpCartServer.dto.ProductRequestDto;
+import com.example.corpCartServer.exception.ResourceAlreadyExistsException;
 import com.example.corpCartServer.exception.ResourceNotFoundException;
 import com.example.corpCartServer.mapper.ProductMapper;
 import com.example.corpCartServer.models.Category;
@@ -29,15 +31,17 @@ public class ProductService {
     private CategoryService categoryService;
 
     public void createProduct(ProductRequestDto productDto) {
+        Optional<Product> product1 = productRepo.findByProductName(productDto.getProductName());
+        if (product1.isPresent()) {
+            throw new ResourceAlreadyExistsException("product with this name already exists");
+        }
         Category category = categoryService.getCategoryById(productDto.getCategoryId());
         Product product = ProductMapper.dtoToProduct(productDto, new Product(), category);
         productRepo.save(product);
     }
 
     public List<ProductDto> getAllProducts() {
-        return productRepo.findAll().stream().map(
-                product->ProductMapper.productToDto(product,new ProductDto())
-        ).toList();
+        return productRepo.findAll().stream().map(product -> ProductMapper.productToDto(product, new ProductDto())).toList();
     }
 
     public Product getProductById(Long id) {
@@ -47,17 +51,18 @@ public class ProductService {
         }
         return product.get();
     }
+
     public ProductDto getProductDtoById(Long id) {
         Product product = getProductById(id);
-        return ProductMapper.productToDto(product,new ProductDto());
+        return ProductMapper.productToDto(product, new ProductDto());
     }
 
-    public ProductDto updateProduct(Long productId,ProductRequestDto productRequestDto) {
+    public ProductDto updateProduct(Long productId, ProductRequestDto productRequestDto) {
         Product oldProduct = getProductById(productId);
         Category newCategory = categoryService.getCategoryById(productRequestDto.getCategoryId());
-        Product newProduct = ProductMapper.dtoToProduct(productRequestDto,oldProduct,newCategory);
+        Product newProduct = ProductMapper.dtoToProduct(productRequestDto, oldProduct, newCategory);
         newProduct = productRepo.save(newProduct);
-        return ProductMapper.productToDto(newProduct,new ProductDto());
+        return ProductMapper.productToDto(newProduct, new ProductDto());
     }
 
     public void deleteProduct(Long id) {
@@ -71,10 +76,18 @@ public class ProductService {
         productRepo.save(product);
     }
 
-    public Page<ProductDto> searchWithFilters(String name, Double minPrice, Double maxPrice, Long categoryId, int page, int size) {
+    public PagedResponse<ProductDto> searchWithFilters(String name, Double minPrice, Double maxPrice, Long categoryId, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         Specification<Product> spec = ProductSpecification.withFilters(name, minPrice, maxPrice, categoryId);
         Page<Product> productPage = productRepo.findAll(spec, pageable);
-        return productPage.map(product->ProductMapper.productToDto(product,new ProductDto()));
+        Page<ProductDto> productDtos = productPage.map(product -> ProductMapper.productToDto(product, new ProductDto()));
+        return new PagedResponse<>(
+                productDtos.getContent(),
+                productDtos.getNumber(),
+                productDtos.getSize(),
+                productDtos.getTotalElements(),
+                productDtos.getTotalPages(),
+                productDtos.isLast()
+        );
     }
 }

@@ -1,9 +1,12 @@
 package com.example.corpCartServer.service.user;
 
+import com.example.corpCartServer.dto.CartDto;
 import com.example.corpCartServer.dto.UserLoginRequest;
 import com.example.corpCartServer.dto.UserRegisterRequest;
+import com.example.corpCartServer.exception.ResourceNotFoundException;
 import com.example.corpCartServer.exception.UserAlreadyExistsException;
 import com.example.corpCartServer.exception.UserNotActiveException;
+import com.example.corpCartServer.mapper.CartMapper;
 import com.example.corpCartServer.models.Cart;
 import com.example.corpCartServer.models.user.Customer;
 import com.example.corpCartServer.models.user.User;
@@ -16,8 +19,11 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 import static com.example.corpCartServer.mapper.UserMapper.getCustomer;
 import static com.example.corpCartServer.utils.AppConstants.BCRYPT_PASS_STRENGTH;
@@ -80,9 +86,16 @@ public class CustomerService {
         }
     }
 
-    public User findByEmail(String email) {
+    public Customer findByEmail(String email) {
         return customerRepo.findByEmail(email);
     }
 
-
+    public CartDto getCartByUserId(UserDetails userDetails) {
+        String email = userDetails.getUsername();
+        Optional<Cart> cart = customerRepo.findCartByEmail(email);
+        if (cart.isEmpty()) {
+            throw new ResourceNotFoundException("cart is not exist for this user");
+        }
+        return CartMapper.cartToDto(cart.get(),new CartDto());
+    }
 }

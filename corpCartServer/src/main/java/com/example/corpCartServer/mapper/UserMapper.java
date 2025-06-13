@@ -33,6 +33,7 @@ public class UserMapper {
         customer.setPassword(userRequest.getPassword());
         customer.setPhone(userRequest.getPhone());
         customer.setRole(Role.CUSTOMER);
+        customer.setCompanyName(userRequest.getCompanyName());
         customer.setAddress(userRequest.getAddress());
         return customer;
     }

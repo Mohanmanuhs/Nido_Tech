@@ -1,19 +1,22 @@
 package com.example.corpCartServer.service;
 
 
+import com.example.corpCartServer.dto.CartDto;
 import com.example.corpCartServer.dto.CartItemRequestDto;
 import com.example.corpCartServer.dto.CartItemUpdateRequestDto;
+import com.example.corpCartServer.exception.ResourceNotFoundException;
+import com.example.corpCartServer.mapper.CartMapper;
 import com.example.corpCartServer.models.Cart;
 import com.example.corpCartServer.models.CartItem;
 import com.example.corpCartServer.models.Product;
 import com.example.corpCartServer.repository.CartItemRepo;
 import com.example.corpCartServer.repository.CartRepo;
-import com.example.corpCartServer.repository.ProductRepo;
-import com.example.corpCartServer.repository.UserRepo;
+import com.example.corpCartServer.repository.CustomerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class CartService {
@@ -26,53 +29,63 @@ public class CartService {
     private CartItemRepo cartItemRepo;
 
     @Autowired
-    private UserRepo UserRepo;
+    private CustomerRepo customerRepo;
 
     @Autowired
-    private ProductRepo productRepo;
+    private ProductService productService;
 
-    public Cart getCartByUserId(Long userId) {
-        return cartRepo.findByCustomer_UserId(userId);
+    public Cart getCart(UserDetails userDetails) {
+        String email = userDetails.getUsername();
+        Optional<Cart> cart = customerRepo.findCartByEmail(email);
+        if (cart.isEmpty()) {
+            throw new ResourceNotFoundException("cart is not exist for this user");
+        }
+        return cart.get();
     }
 
-    public void addItemToCart(Long userId, CartItemRequestDto dto) {
-        Cart cart = cartRepo.findByCustomer_UserId(userId);
+    public CartItem getCartItem(String email, Long cartItemId) {
+        Optional<CartItem> item = cartItemRepo.findByCartItemIdAndCart_Customer_Email(cartItemId, email);
+        if (item.isEmpty()) {
+            throw new ResourceNotFoundException("cart item is not found");
+        }
+        return item.get();
+    }
 
-        Product product = productRepo.findById(dto.getProductId())
-                .orElseThrow(() -> new NoSuchElementException("product not found for user"));
+    public CartDto getCartDto(UserDetails userDetails) {
+        return CartMapper.cartToDto(getCart(userDetails), new CartDto());
+    }
 
-        CartItem item = cart.getCartItems().stream()
-                .filter(ci -> ci.getProduct().getProductId().equals(dto.getProductId()))
-                .findFirst()
-                .orElseGet(() -> {
-                    CartItem newItem = new CartItem();
-                    newItem.setCart(cart);
-                    newItem.setProduct(product);
-                    return newItem;
-                });
+    public void addItemToCart(UserDetails userDetails, CartItemRequestDto dto) {
+        Cart cart = getCart(userDetails);
+        Product product = productService.getProductById(dto.getProductId());
+
+        CartItem item = cart.getCartItems().stream().filter(ci -> ci.getProduct().getProductId().equals(dto.getProductId())).findFirst().orElseGet(() -> {
+            CartItem newItem = new CartItem();
+            newItem.setCart(cart);
+            newItem.setProduct(product);
+            return newItem;
+        });
         item.setCartItemQuantity(dto.getCartItemQuantity());
-        item.setCartItemPrice(dto.getCartItemQuantity()*product.getProductPrice());
+        item.setCartItemPrice(dto.getCartItemQuantity() * product.getProductPrice());
         cartItemRepo.save(item);
     }
 
-    public void updateCartItem(Long userId, CartItemUpdateRequestDto dto) {
-        CartItem item = cartItemRepo.findByCart_Customer_UserIdAndCartItemId(userId, dto.getCartItemId())
-                .orElseThrow(() -> new NoSuchElementException("CartItem not found for user"));
-
+    public void updateCartItem(UserDetails userDetails, CartItemUpdateRequestDto dto) {
+        String email = userDetails.getUsername();
+        CartItem item = getCartItem(email, dto.getCartItemId());
         item.setCartItemQuantity(dto.getCartItemQuantity());
-        item.setCartItemPrice(dto.getCartItemQuantity()*item.getProduct().getProductPrice());
+        item.setCartItemPrice(dto.getCartItemQuantity() * item.getProduct().getProductPrice());
         cartItemRepo.save(item);
     }
 
-    public void removeItemFromCart(Long userId, Long itemId) {
-        CartItem item = cartItemRepo.findByCart_Customer_UserIdAndCartItemId(userId, itemId)
-                .orElseThrow(() -> new NoSuchElementException("CartItem not found for user"));
-
+    public void removeItemFromCart(UserDetails userDetails, Long itemId) {
+        String email = userDetails.getUsername();
+        CartItem item = getCartItem(email, itemId);
         cartItemRepo.delete(item);
     }
 
-    public void clearCart(Long userId) {
-        Cart cart = cartRepo.findByCustomer_UserId(userId);
+    public void clearCart(UserDetails userDetails) {
+        Cart cart = getCart(userDetails);
         if (!cart.getCartItems().isEmpty()) {
             cart.getCartItems().clear();
         }

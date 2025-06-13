@@ -33,9 +33,6 @@ public class OrderService {
     @Autowired
     private ProductRepo productRepo;
 
-    @Autowired
-    private UserRepo userRepo;
-
 
     public List<Order> getAllOrders() {
         return null;
@@ -46,7 +43,7 @@ public class OrderService {
     }
 
     public Order placeOrder(Long userId) {
-        Cart cart = cartRepo.findByCustomer_UserId(userId);
+        Cart cart = cartRepo.findById(userId).get();
         if (cart == null || cart.getCartItems().isEmpty()) {
             throw new RuntimeException("Cart is empty or does not exist");
         }

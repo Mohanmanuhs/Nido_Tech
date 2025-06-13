@@ -3,7 +3,6 @@ package com.example.corpCartServer.dto;
 import com.example.corpCartServer.constants.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,8 +29,9 @@ public class UserRegisterRequest {
 
     private String phone;
 
-    @NotNull(message = "Please select role")
     private Role role;
+
+    private String companyName;
 
     private String securityKey;
 

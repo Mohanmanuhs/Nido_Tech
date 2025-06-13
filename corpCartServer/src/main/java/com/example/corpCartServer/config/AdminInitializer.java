@@ -14,11 +14,10 @@ import static com.example.corpCartServer.utils.AppConstants.BCRYPT_PASS_STRENGTH
 @Component
 public class AdminInitializer implements CommandLineRunner {
 
-    @Autowired
-    private AdminRepo adminRepo;
+    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(BCRYPT_PASS_STRENGTH);
 
     @Autowired
-    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(BCRYPT_PASS_STRENGTH);
+    private AdminRepo adminRepo;
 
     @Value("${ADMIN_EMAIL}")
     private String adminEmail;
@@ -30,10 +29,11 @@ public class AdminInitializer implements CommandLineRunner {
     public void run(String... args) throws Exception {
         if (adminRepo.findByEmail(adminEmail)==null) {;
             Admin admin = new Admin();
+            admin.setName("Mohan");
             admin.setEmail(adminEmail);
             admin.setPassword(encoder.encode(adminPassword));
             admin.setRole(Role.ADMIN);
-            admin.setActive(true);
+            admin.setSecurityKey("KingKong");
             adminRepo.save(admin);
         }
     }
