@@ -22,9 +22,11 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-    @Value("${SECRET_KEY}")
-    private String secretKey;
+    private final String secretKey;
 
+    public JwtService(@Value("${SECRET_KEY}") String secretKey) {
+        this.secretKey = secretKey;
+    }
 
     public String generateSecretKey() {
         try {

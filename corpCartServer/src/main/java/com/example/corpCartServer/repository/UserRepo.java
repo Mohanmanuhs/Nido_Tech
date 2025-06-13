@@ -7,12 +7,12 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepo extends JpaRepository<User,Long> {
+public interface UserRepo extends JpaRepository<User, Long> {
 
     User findByEmail(String email);
 
     @Transactional
     @Modifying
     void deleteByEmail(String email);
-    
+
 }

@@ -13,10 +13,9 @@ public class ProductSpecification {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
-            predicates.add(criteriaBuilder.equal(root.get("isDeleted"),false));
+            predicates.add(criteriaBuilder.equal(root.get("isDeleted"), false));
             if (name != null && !name.isEmpty()) {
-                predicates.add(criteriaBuilder.like(
-                        criteriaBuilder.lower(root.get("productName")), "%" + name.toLowerCase() + "%"));
+                predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("productName")), "%" + name.toLowerCase() + "%"));
             }
             if (minPrice != null && maxPrice != null) {
                 predicates.add(criteriaBuilder.between(root.get("productPrice"), minPrice, maxPrice));

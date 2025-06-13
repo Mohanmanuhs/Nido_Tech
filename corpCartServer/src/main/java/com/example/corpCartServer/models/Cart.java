@@ -29,8 +29,6 @@ public class Cart {
     private List<CartItem> cartItems = new ArrayList<>();
 
     public double getTotalAmount() {
-        return cartItems.stream()
-                    .mapToDouble(item -> item.getProduct().getProductPrice() * item.getCartItemQuantity())
-                    .sum();
+        return cartItems.stream().mapToDouble(item -> item.getProduct().getProductPrice() * item.getCartItemQuantity()).sum();
     }
 }

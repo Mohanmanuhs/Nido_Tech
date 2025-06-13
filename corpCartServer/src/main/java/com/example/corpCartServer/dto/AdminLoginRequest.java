@@ -17,7 +17,7 @@ public class AdminLoginRequest {
     private String email;
 
     @NotBlank(message = "Password may not be blank")
-    @Size(min=6,message = "Password must be at least 6 characters")
+    @Size(min = 6, message = "Password must be at least 6 characters")
     private String password;
 
     @NotBlank(message = "security key may not be blank")

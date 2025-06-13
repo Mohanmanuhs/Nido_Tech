@@ -25,11 +25,11 @@ public class Order {
     private Long orderId;
 
     @ManyToOne
-    @JoinColumn(name = "customerId",nullable = false)
+    @JoinColumn(name = "customerId", nullable = false)
     @JsonManagedReference
     private Customer customer;
 
-    @Column(updatable = false,nullable = false)
+    @Column(updatable = false, nullable = false)
     private LocalDateTime orderDate;
 
     @Column(nullable = false)

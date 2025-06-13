@@ -34,7 +34,7 @@ public class Product {
     private boolean isDeleted = false;
 
     @ManyToOne
-    @JoinColumn(name = "categoryId",nullable = false)
+    @JoinColumn(name = "categoryId", nullable = false)
     @JsonManagedReference
     private Category category;
 
@@ -42,7 +42,7 @@ public class Product {
     @JsonManagedReference
     private List<CartItem> cartItems;
 
-    @OneToMany(mappedBy = "product", cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH})
+    @OneToMany(mappedBy = "product", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JsonManagedReference
     private List<OrderItem> orderItems;
 

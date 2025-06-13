@@ -8,8 +8,10 @@ import com.example.corpCartServer.models.CartItem;
 import com.example.corpCartServer.models.Order;
 import com.example.corpCartServer.models.OrderItem;
 import com.example.corpCartServer.models.user.Customer;
-import com.example.corpCartServer.repository.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.corpCartServer.repository.CartRepo;
+import com.example.corpCartServer.repository.OrderItemRepo;
+import com.example.corpCartServer.repository.OrderRepo;
+import com.example.corpCartServer.repository.ProductRepo;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -21,18 +23,20 @@ import java.util.Optional;
 @Service
 public class OrderService {
 
-    @Autowired
-    private OrderRepo orderRepo;
+    private final OrderRepo orderRepo;
 
-    @Autowired
-    private CartRepo cartRepo;
+    private final CartRepo cartRepo;
 
-    @Autowired
-    private OrderItemRepo orderItemRepo;
+    private final OrderItemRepo orderItemRepo;
 
-    @Autowired
-    private ProductRepo productRepo;
+    private final ProductRepo productRepo;
 
+    public OrderService(OrderRepo orderRepo, CartRepo cartRepo, OrderItemRepo orderItemRepo, ProductRepo productRepo) {
+        this.orderRepo = orderRepo;
+        this.cartRepo = cartRepo;
+        this.orderItemRepo = orderItemRepo;
+        this.productRepo = productRepo;
+    }
 
     public List<Order> getAllOrders() {
         return null;

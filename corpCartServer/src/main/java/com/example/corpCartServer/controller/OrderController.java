@@ -8,7 +8,6 @@ import com.example.corpCartServer.dto.UpdateOrderRequestDto;
 import com.example.corpCartServer.mapper.OrderMapper;
 import com.example.corpCartServer.models.Order;
 import com.example.corpCartServer.service.OrderService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -20,19 +19,21 @@ import java.util.Optional;
 @Controller
 @RequestMapping("order/")
 public class OrderController {
-    @Autowired
-    private OrderService orderService;
+
+    private final OrderService orderService;
+
+    public OrderController(OrderService orderService) {
+        this.orderService = orderService;
+    }
 
     @GetMapping
     public List<OrderResponseDto> getAllOrders() {
-        return orderService.getAllOrders().stream().map(order ->
-                OrderMapper.orderToDto(order,new OrderResponseDto())
-        ).toList();
+        return orderService.getAllOrders().stream().map(order -> OrderMapper.orderToDto(order, new OrderResponseDto())).toList();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getOrderById(@PathVariable Long id) {
-        return ResponseEntity.ok(OrderMapper.orderToDto(orderService.getOrderById(id).get(),new OrderResponseDto()));
+        return ResponseEntity.ok(OrderMapper.orderToDto(orderService.getOrderById(id).get(), new OrderResponseDto()));
     }
 
     @PostMapping("/{userId}/place")
@@ -42,16 +43,12 @@ public class OrderController {
     }
 
     @PutMapping("/{orderId}")
-    public ResponseEntity<String> updateOrder(
-            @PathVariable Long orderId,
-            @RequestBody UpdateOrderRequestDto updateRequest) {
+    public ResponseEntity<String> updateOrder(@PathVariable Long orderId, @RequestBody UpdateOrderRequestDto updateRequest) {
 
         Optional<Order> optionalOrder = orderService.getOrderById(orderId);
         if (optionalOrder.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("Order not found with ID: " + orderId);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Order not found with ID: " + orderId);
         }
-
         Order order = optionalOrder.get();
 
         try {
@@ -70,7 +67,6 @@ public class OrderController {
         }
 
         orderService.updateOrder(order);
-
         return ResponseEntity.ok("Order updated successfully.");
     }
 

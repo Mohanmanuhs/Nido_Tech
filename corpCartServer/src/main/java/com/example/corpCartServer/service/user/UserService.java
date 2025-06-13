@@ -8,7 +8,6 @@ import com.example.corpCartServer.models.user.User;
 import com.example.corpCartServer.repository.UserRepo;
 import com.example.corpCartServer.utils.CookieUtil;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,12 +21,14 @@ import static com.example.corpCartServer.utils.AppConstants.BCRYPT_PASS_STRENGTH
 @Service
 public class UserService {
 
-    @Autowired
-    private UserRepo userRepo;
-
+    private final UserRepo userRepo;
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(BCRYPT_PASS_STRENGTH);
 
-    public void changePassword(ChangePassDto changePassDto,UserDetails userDetails) {
+    public UserService(UserRepo userRepo) {
+        this.userRepo = userRepo;
+    }
+
+    public void changePassword(ChangePassDto changePassDto, UserDetails userDetails) {
         String email = userDetails.getUsername();
         changePassDto.setEmail(email);
         User user = userRepo.findByEmail(changePassDto.getEmail());
@@ -40,23 +41,21 @@ public class UserService {
         userRepo.save(user);
     }
 
-    public void deactivateCurrentUser(HttpServletResponse response,UserDetails userDetails) {
-       String email = userDetails.getUsername();
+    public void deactivateCurrentUser(HttpServletResponse response, UserDetails userDetails) {
+        String email = userDetails.getUsername();
         User user = findByEmail(email);
 
-        if(user == null|| !user.isActive())
-            throw new UserNotActiveException("User not found with email: " + email);
+        if (user == null || !user.isActive()) throw new UserNotActiveException("User not found with email: " + email);
 
         user.setActive(false);
         userRepo.save(user);
         CookieUtil.clearJwtCookie(response);
     }
 
-    public void deleteUserByAdmin(HttpServletResponse response,String email) {
+    public void deleteUserByAdmin(HttpServletResponse response, String email) {
         User user = findByEmail(email);
 
-        if(user == null || !user.isActive())
-            throw new UserNotActiveException("User not found with email: " + email);
+        if (user == null || !user.isActive()) throw new UserNotActiveException("User not found with email: " + email);
 
         userRepo.delete(user);
         CookieUtil.clearJwtCookie(response);
@@ -70,7 +69,7 @@ public class UserService {
             String email = userDetails.getUsername();
             User user = findByEmail(email);
 
-            if(user == null || !user.isActive())
+            if (user == null || !user.isActive())
                 throw new UserNotActiveException("User not found with email: " + email);
 
             return user.getRole().name();
@@ -93,5 +92,5 @@ public class UserService {
     public User findById(Long id) {
         return userRepo.findById(id).orElseThrow();
     }
-    
+
 }

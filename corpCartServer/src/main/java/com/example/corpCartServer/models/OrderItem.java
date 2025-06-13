@@ -17,12 +17,12 @@ public class OrderItem {
     private Long orderItemId;
 
     @ManyToOne
-    @JoinColumn(name = "orderId",nullable = false)
+    @JoinColumn(name = "orderId", nullable = false)
     @JsonManagedReference
     private Order order;
 
     @ManyToOne
-    @JoinColumn(name = "productId",nullable = false)
+    @JoinColumn(name = "productId", nullable = false)
     @JsonManagedReference
     private Product product;
 

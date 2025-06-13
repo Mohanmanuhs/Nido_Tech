@@ -11,7 +11,6 @@ import com.example.corpCartServer.models.Category;
 import com.example.corpCartServer.models.Product;
 import com.example.corpCartServer.repository.ProductRepo;
 import com.example.corpCartServer.specification.ProductSpecification;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -24,11 +23,14 @@ import java.util.Optional;
 @Service
 public class ProductService {
 
-    @Autowired
-    private ProductRepo productRepo;
+    private final ProductRepo productRepo;
 
-    @Autowired
-    private CategoryService categoryService;
+    private final CategoryService categoryService;
+
+    public ProductService(ProductRepo productRepo, CategoryService categoryService) {
+        this.productRepo = productRepo;
+        this.categoryService = categoryService;
+    }
 
     public void createProduct(ProductRequestDto productDto) {
         Optional<Product> product1 = productRepo.findByProductName(productDto.getProductName());
@@ -81,13 +83,6 @@ public class ProductService {
         Specification<Product> spec = ProductSpecification.withFilters(name, minPrice, maxPrice, categoryId);
         Page<Product> productPage = productRepo.findAll(spec, pageable);
         Page<ProductDto> productDtos = productPage.map(product -> ProductMapper.productToDto(product, new ProductDto()));
-        return new PagedResponse<>(
-                productDtos.getContent(),
-                productDtos.getNumber(),
-                productDtos.getSize(),
-                productDtos.getTotalElements(),
-                productDtos.getTotalPages(),
-                productDtos.isLast()
-        );
+        return new PagedResponse<>(productDtos.getContent(), productDtos.getNumber(), productDtos.getSize(), productDtos.getTotalElements(), productDtos.getTotalPages(), productDtos.isLast());
     }
 }

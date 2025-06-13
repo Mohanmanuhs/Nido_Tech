@@ -4,7 +4,6 @@ import com.example.corpCartServer.dto.PagedResponse;
 import com.example.corpCartServer.dto.ProductDto;
 import com.example.corpCartServer.dto.ProductRequestDto;
 import com.example.corpCartServer.service.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -16,8 +15,11 @@ import java.util.List;
 @RequestMapping("product/")
 public class ProductController {
 
-    @Autowired
-    private ProductService productService;
+    private final ProductService productService;
+
+    public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
 
     @PostMapping("/create")
     public ResponseEntity<?> createProduct(@RequestBody ProductRequestDto productDto) {
@@ -39,7 +41,7 @@ public class ProductController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateProduct(@PathVariable Long id, @RequestBody ProductRequestDto updatedProductDto) {
-        ProductDto productDto = productService.updateProduct(id,updatedProductDto);
+        ProductDto productDto = productService.updateProduct(id, updatedProductDto);
         return ResponseEntity.ok("product Updated successfully");
     }
 
@@ -56,16 +58,8 @@ public class ProductController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<?> searchProducts(
-            @RequestParam(required = false) String name,
-            @RequestParam(required = false) Double minPrice,
-            @RequestParam(required = false) Double maxPrice,
-            @RequestParam(required = false) Long categoryId,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
-    ) {
-        PagedResponse<ProductDto> pagedResponse = productService.searchWithFilters(name,minPrice,maxPrice,categoryId,page,size);
+    public ResponseEntity<?> searchProducts(@RequestParam(required = false) String name, @RequestParam(required = false) Double minPrice, @RequestParam(required = false) Double maxPrice, @RequestParam(required = false) Long categoryId, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        PagedResponse<ProductDto> pagedResponse = productService.searchWithFilters(name, minPrice, maxPrice, categoryId, page, size);
         return ResponseEntity.ok(pagedResponse);
     }
-
 }

@@ -11,7 +11,6 @@ import com.example.corpCartServer.models.Category;
 import com.example.corpCartServer.models.Product;
 import com.example.corpCartServer.repository.CategoryRepo;
 import com.example.corpCartServer.repository.ProductRepo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,11 +19,14 @@ import java.util.Optional;
 @Service
 public class CategoryService {
 
-    @Autowired
-    private CategoryRepo categoryRepo;
+    private final CategoryRepo categoryRepo;
 
-    @Autowired
-    private ProductRepo productRepo;
+    private final ProductRepo productRepo;
+
+    public CategoryService(CategoryRepo categoryRepo, ProductRepo productRepo) {
+        this.categoryRepo = categoryRepo;
+        this.productRepo = productRepo;
+    }
 
     public List<CategoryDto> getAllCategories() {
         return categoryRepo.findAll().stream().map(category -> CategoryMapper.categoryToDto(category, new CategoryDto())).toList();
@@ -37,9 +39,10 @@ public class CategoryService {
         }
         return category.get();
     }
+
     public CategoryDto getCategoryDtoById(Long id) {
         Category category = getCategoryById(id);
-        return CategoryMapper.categoryToDto(category,new CategoryDto());
+        return CategoryMapper.categoryToDto(category, new CategoryDto());
     }
 
     public void createCategory(CategoryDto categoryDto) {

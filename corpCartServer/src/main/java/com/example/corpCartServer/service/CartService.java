@@ -12,7 +12,6 @@ import com.example.corpCartServer.models.Product;
 import com.example.corpCartServer.repository.CartItemRepo;
 import com.example.corpCartServer.repository.CartRepo;
 import com.example.corpCartServer.repository.CustomerRepo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -21,18 +20,20 @@ import java.util.Optional;
 @Service
 public class CartService {
 
+    private final CartRepo cartRepo;
 
-    @Autowired
-    private CartRepo cartRepo;
+    private final CartItemRepo cartItemRepo;
 
-    @Autowired
-    private CartItemRepo cartItemRepo;
+    private final CustomerRepo customerRepo;
 
-    @Autowired
-    private CustomerRepo customerRepo;
+    private final ProductService productService;
 
-    @Autowired
-    private ProductService productService;
+    public CartService(CartRepo cartRepo, CartItemRepo cartItemRepo, CustomerRepo customerRepo, ProductService productService) {
+        this.cartRepo = cartRepo;
+        this.cartItemRepo = cartItemRepo;
+        this.customerRepo = customerRepo;
+        this.productService = productService;
+    }
 
     public Cart getCart(UserDetails userDetails) {
         String email = userDetails.getUsername();

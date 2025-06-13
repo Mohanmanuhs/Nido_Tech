@@ -14,7 +14,6 @@ import com.example.corpCartServer.repository.CustomerRepo;
 import com.example.corpCartServer.service.auth.JwtService;
 import com.example.corpCartServer.utils.CookieUtil;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -31,16 +30,20 @@ import static com.example.corpCartServer.utils.AppConstants.BCRYPT_PASS_STRENGTH
 @Service
 public class CustomerService {
 
-    @Autowired
-    private CustomerRepo customerRepo;
+    private final CustomerRepo customerRepo;
 
-    @Autowired
-    AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
-    @Autowired
-    private JwtService jwtService;
+    private final JwtService jwtService;
 
-    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(BCRYPT_PASS_STRENGTH);
+    private final BCryptPasswordEncoder encoder;
+
+    public CustomerService(CustomerRepo customerRepo, AuthenticationManager authenticationManager, JwtService jwtService) {
+        this.customerRepo = customerRepo;
+        this.authenticationManager = authenticationManager;
+        this.jwtService = jwtService;
+        encoder = new BCryptPasswordEncoder(BCRYPT_PASS_STRENGTH);
+    }
 
     private void createCustomer(UserRegisterRequest userRequest) {
         Customer customer = getCustomer(userRequest);
@@ -58,16 +61,14 @@ public class CustomerService {
             throw new UserNotActiveException("User not found or inactive");
         }
 
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(userRequest.getEmail(), userRequest.getPassword())
-        );
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userRequest.getEmail(), userRequest.getPassword()));
 
         if (!authentication.isAuthenticated()) {
             throw new BadCredentialsException("Invalid credentials");
         }
 
         String token = jwtService.generateToken(userRequest.getEmail());
-        CookieUtil.saveTokenToCookie(token,response);
+        CookieUtil.saveTokenToCookie(token, response);
     }
 
     public void registerUser(UserRegisterRequest userRequest) {
@@ -96,6 +97,6 @@ public class CustomerService {
         if (cart.isEmpty()) {
             throw new ResourceNotFoundException("cart is not exist for this user");
         }
-        return CartMapper.cartToDto(cart.get(),new CartDto());
+        return CartMapper.cartToDto(cart.get(), new CartDto());
     }
 }

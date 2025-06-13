@@ -35,5 +35,4 @@ public class UserRegisterRequest {
 
     private String securityKey;
 
-
 }
