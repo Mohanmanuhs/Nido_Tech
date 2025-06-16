@@ -1,5 +1,6 @@
 package com.example.corpCartServer.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,5 +23,6 @@ public class Category {
     private String categoryName;
 
     @OneToMany(mappedBy = "category", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @JsonManagedReference
     private List<Product> products = new ArrayList<>();
 }

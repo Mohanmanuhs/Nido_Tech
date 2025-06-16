@@ -3,6 +3,7 @@ package com.example.corpCartServer.models;
 import com.example.corpCartServer.constants.OrderStatus;
 import com.example.corpCartServer.constants.PaymentStatus;
 import com.example.corpCartServer.models.user.Customer;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -26,7 +27,7 @@ public class Order {
 
     @ManyToOne
     @JoinColumn(name = "customerId", nullable = false)
-    @JsonManagedReference
+    @JsonBackReference
     private Customer customer;
 
     @Column(updatable = false, nullable = false)

@@ -1,6 +1,6 @@
 package com.example.corpCartServer.models;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,12 +18,12 @@ public class OrderItem {
 
     @ManyToOne
     @JoinColumn(name = "orderId", nullable = false)
-    @JsonManagedReference
+    @JsonBackReference
     private Order order;
 
     @ManyToOne
     @JoinColumn(name = "productId", nullable = false)
-    @JsonManagedReference
+    @JsonBackReference
     private Product product;
 
     @Column(nullable = false)

@@ -1,10 +1,15 @@
 package com.example.corpCartServer.exception;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.Arrays;
+import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -48,6 +53,22 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleGenericException(Exception ex) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body("Something went wrong: " + ex.getMessage());
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<?> handleInvalidEnum(HttpMessageNotReadableException ex) {
+        if (ex.getCause() instanceof InvalidFormatException ife) {
+            if (ife.getTargetType().isEnum()) {
+                String error = String.format(
+                        "Invalid value '%s' for enum %s. Allowed values: %s",
+                        ife.getValue(),
+                        ife.getTargetType().getSimpleName(),
+                        Arrays.toString(ife.getTargetType().getEnumConstants())
+                );
+                return ResponseEntity.badRequest().body(Map.of("error", error));
+            }
+        }
+        return ResponseEntity.badRequest().body(Map.of("error", "Invalid request format"));
     }
 
 }

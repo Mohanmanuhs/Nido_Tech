@@ -1,6 +1,7 @@
 package com.example.corpCartServer.models;
 
 import com.example.corpCartServer.models.user.Customer;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -22,10 +23,11 @@ public class Cart {
     @OneToOne
     @JoinColumn(name = "customerId", nullable = false)
     @MapsId
-    @JsonManagedReference
+    @JsonBackReference
     private Customer customer;
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<CartItem> cartItems = new ArrayList<>();
 
     public double getTotalAmount() {

@@ -3,16 +3,18 @@ package com.example.corpCartServer.service;
 
 import com.example.corpCartServer.constants.OrderStatus;
 import com.example.corpCartServer.constants.PaymentStatus;
+import com.example.corpCartServer.dto.OrderResponseDto;
+import com.example.corpCartServer.dto.UpdateOrderRequestDto;
+import com.example.corpCartServer.exception.ResourceNotFoundException;
+import com.example.corpCartServer.mapper.OrderMapper;
 import com.example.corpCartServer.models.Cart;
 import com.example.corpCartServer.models.CartItem;
 import com.example.corpCartServer.models.Order;
 import com.example.corpCartServer.models.OrderItem;
 import com.example.corpCartServer.models.user.Customer;
-import com.example.corpCartServer.repository.CartRepo;
-import com.example.corpCartServer.repository.OrderItemRepo;
-import com.example.corpCartServer.repository.OrderRepo;
-import com.example.corpCartServer.repository.ProductRepo;
+import com.example.corpCartServer.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -26,34 +28,58 @@ import java.util.Optional;
 public class OrderService {
 
     private final OrderRepo orderRepo;
-    private final CartRepo cartRepo;
-    private final OrderItemRepo orderItemRepo;
-    private final ProductRepo productRepo;
+    private final CustomerRepo customerRepo;
 
-    public List<Order> getAllOrders() {
-        return null;
+    public List<OrderResponseDto> getAllOrdersForCustomers(UserDetails userDetails) {
+        String email = userDetails.getUsername();
+        List<Order> orders = customerRepo.findOrdersByEmail(email);
+        return orders.stream().map(
+                order -> OrderMapper.orderToDto(order,new OrderResponseDto())
+        ).toList();
     }
 
-    public Optional<Order> getOrderById(Long id) {
-        return orderRepo.findById(id);
+    public List<OrderResponseDto> getAllOrdersForAdmin() {
+        List<Order> orders = orderRepo.findAll();
+        return orders.stream().map(
+                order -> OrderMapper.orderToDto(order,new OrderResponseDto())
+        ).toList();
     }
 
-    public Order placeOrder(Long userId) {
-        Cart cart = cartRepo.findById(userId).get();
-        if (cart == null || cart.getCartItems().isEmpty()) {
-            throw new RuntimeException("Cart is empty or does not exist");
+    public OrderResponseDto getOrderDtoById(Long id) {
+        Order order = getOrderById(id);
+
+        return OrderMapper.orderToDto(
+                order,new OrderResponseDto()
+        );
+    }
+
+    public Order getOrderById(Long id) {
+        Optional<Order> order = orderRepo.findById(id);
+        if (order.isEmpty()) {
+            throw new ResourceNotFoundException("order not found with this id");
         }
-        Customer customer = cart.getCustomer();
+        return order.get();
+    }
+
+    public OrderResponseDto placeOrder(UserDetails userDetails) {
+        String email = userDetails.getUsername();
+        Optional<Cart> cart = customerRepo.findCartByEmail(email);
+
+        if (cart.isEmpty() || cart.get().getCartItems().isEmpty()) {
+            throw new ResourceNotFoundException("Cart is empty or does not exist");
+        }
+
+        Customer customer = cart.get().getCustomer();
         Order order = new Order();
 
         order.setCustomer(customer);
         order.setOrderDate(LocalDateTime.now());
         order.setOrderStatus(OrderStatus.PLACED);
-        order.setTotalAmount(cart.getTotalAmount());
+        order.setTotalAmount(cart.get().getTotalAmount());
         order.setPaymentStatus(PaymentStatus.PENDING);
         List<OrderItem> orderItems = new ArrayList<>();
 
-        for (CartItem cartItem : cart.getCartItems()) {
+        for (CartItem cartItem : cart.get().getCartItems()) {
             OrderItem orderItem = new OrderItem();
             orderItem.setOrder(order);
             orderItem.setProduct(cartItem.getProduct());
@@ -63,15 +89,27 @@ public class OrderService {
         }
         order.setOrderItems(orderItems);
         order.setExpectedDeliveryDate(LocalDate.now().plusDays(5));
-        return orderRepo.save(order);
+        Order savedOrder = orderRepo.save(order);
+        return OrderMapper.orderToDto(savedOrder,new OrderResponseDto());
     }
 
+    public void updateOrder(UpdateOrderRequestDto dto) {
+        Order order = getOrderById(dto.getOrderId());
 
-    public void updateOrder(Order order) {
+        if (dto.getOrderStatus() != null) {
+            order.setOrderStatus(dto.getOrderStatus());
+        }
+        if (dto.getPaymentStatus() != null) {
+            order.setPaymentStatus(dto.getPaymentStatus());
+        }
+        if (dto.getExpectedDeliveryDate() != null) {
+            order.setExpectedDeliveryDate(dto.getExpectedDeliveryDate());
+        }
         orderRepo.save(order);
     }
 
-    public boolean deleteOrder(Long id) {
-        return false;
+    public void deleteOrder(Long id) {
+        Order order = getOrderById(id);
+        orderRepo.delete(order);
     }
 }
