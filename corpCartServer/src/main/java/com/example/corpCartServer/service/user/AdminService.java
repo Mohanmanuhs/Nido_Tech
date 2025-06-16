@@ -13,33 +13,24 @@ import com.example.corpCartServer.repository.AdminRepo;
 import com.example.corpCartServer.service.auth.JwtService;
 import com.example.corpCartServer.utils.CookieUtil;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import static com.example.corpCartServer.utils.AppConstants.BCRYPT_PASS_STRENGTH;
 
 
 @Service
+@RequiredArgsConstructor
 public class AdminService {
 
     private final AdminRepo adminRepo;
-
     private final AuthenticationManager authenticationManager;
-
     private final JwtService jwtService;
-
-    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(BCRYPT_PASS_STRENGTH);
-
-    public AdminService(AdminRepo adminRepo, AuthenticationManager authenticationManager, JwtService jwtService) {
-        this.adminRepo = adminRepo;
-        this.authenticationManager = authenticationManager;
-        this.jwtService = jwtService;
-    }
+    private final PasswordEncoder encoder;
 
     public void registerAdmin(UserRegisterRequest userRequest, UserDetails userDetails) {
         if (findByEmail(userRequest.getEmail()) != null) {

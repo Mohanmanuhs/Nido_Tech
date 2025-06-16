@@ -4,6 +4,7 @@ package com.example.corpCartServer.controller;
 import com.example.corpCartServer.dto.CategoryDto;
 import com.example.corpCartServer.dto.ProductDto;
 import com.example.corpCartServer.service.CategoryService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -11,14 +12,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/category")
+@RequestMapping("/categories")
+@RequiredArgsConstructor
 public class CategoryController {
 
     private final CategoryService categoryService;
-
-    public CategoryController(CategoryService categoryService) {
-        this.categoryService = categoryService;
-    }
 
     @GetMapping("/")
     public ResponseEntity<?> getAllCategories() {
@@ -31,7 +29,7 @@ public class CategoryController {
         return ResponseEntity.ok(categoryService.getCategoryDtoById(id));
     }
 
-    @GetMapping("/products/{categoryId}")
+    @GetMapping("/{categoryId}/products")
     public ResponseEntity<?> getProductsByCategory(@PathVariable Long categoryId) {
         List<ProductDto> products = categoryService.getProductsByCategoryId(categoryId);
         return ResponseEntity.ok(products);

@@ -11,6 +11,7 @@ import com.example.corpCartServer.models.Category;
 import com.example.corpCartServer.models.Product;
 import com.example.corpCartServer.repository.ProductRepo;
 import com.example.corpCartServer.specification.ProductSpecification;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,16 +22,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ProductService {
 
     private final ProductRepo productRepo;
-
     private final CategoryService categoryService;
-
-    public ProductService(ProductRepo productRepo, CategoryService categoryService) {
-        this.productRepo = productRepo;
-        this.categoryService = categoryService;
-    }
 
     public void createProduct(ProductRequestDto productDto) {
         Optional<Product> product1 = productRepo.findByProductName(productDto.getProductName());

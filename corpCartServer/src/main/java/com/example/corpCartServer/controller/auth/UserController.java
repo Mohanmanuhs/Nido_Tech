@@ -10,29 +10,25 @@ import com.example.corpCartServer.service.user.UserService;
 import com.example.corpCartServer.utils.CookieUtil;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("user")
+@RequestMapping("/users")
+@RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
     private final CustomerService customerService;
     private final AdminService adminService;
 
-    public UserController(UserService userService, CustomerService customerService, AdminService adminService) {
-        this.userService = userService;
-        this.customerService = customerService;
-        this.adminService = adminService;
-    }
-
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody @Valid UserRegisterRequest userRequest) {
         customerService.registerUser(userRequest);
-        return ResponseEntity.ok("User created successfully");
+        return ResponseEntity.status(201).body("User created successfully");
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")

@@ -6,20 +6,18 @@ import com.example.corpCartServer.dto.CartItemRequestDto;
 import com.example.corpCartServer.dto.CartItemUpdateRequestDto;
 import com.example.corpCartServer.models.auth.UserPrincipal;
 import com.example.corpCartServer.service.CartService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("cart/")
+@RequestMapping("/cart")
+@RequiredArgsConstructor
 public class CartController {
 
     private final CartService cartService;
-
-    public CartController(CartService cartService) {
-        this.cartService = cartService;
-    }
 
     @GetMapping("/")
     public ResponseEntity<?> getCart(@AuthenticationPrincipal UserPrincipal userDetails) {

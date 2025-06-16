@@ -12,6 +12,7 @@ import com.example.corpCartServer.repository.CartRepo;
 import com.example.corpCartServer.repository.OrderItemRepo;
 import com.example.corpCartServer.repository.OrderRepo;
 import com.example.corpCartServer.repository.ProductRepo;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -21,22 +22,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class OrderService {
 
     private final OrderRepo orderRepo;
-
     private final CartRepo cartRepo;
-
     private final OrderItemRepo orderItemRepo;
-
     private final ProductRepo productRepo;
-
-    public OrderService(OrderRepo orderRepo, CartRepo cartRepo, OrderItemRepo orderItemRepo, ProductRepo productRepo) {
-        this.orderRepo = orderRepo;
-        this.cartRepo = cartRepo;
-        this.orderItemRepo = orderItemRepo;
-        this.productRepo = productRepo;
-    }
 
     public List<Order> getAllOrders() {
         return null;

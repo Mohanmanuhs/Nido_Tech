@@ -12,28 +12,20 @@ import com.example.corpCartServer.models.Product;
 import com.example.corpCartServer.repository.CartItemRepo;
 import com.example.corpCartServer.repository.CartRepo;
 import com.example.corpCartServer.repository.CustomerRepo;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class CartService {
 
     private final CartRepo cartRepo;
-
     private final CartItemRepo cartItemRepo;
-
     private final CustomerRepo customerRepo;
-
     private final ProductService productService;
-
-    public CartService(CartRepo cartRepo, CartItemRepo cartItemRepo, CustomerRepo customerRepo, ProductService productService) {
-        this.cartRepo = cartRepo;
-        this.cartItemRepo = cartItemRepo;
-        this.customerRepo = customerRepo;
-        this.productService = productService;
-    }
 
     public Cart getCart(UserDetails userDetails) {
         String email = userDetails.getUsername();

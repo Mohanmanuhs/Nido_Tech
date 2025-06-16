@@ -6,6 +6,7 @@ import com.example.corpCartServer.repository.AdminRepo;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import static com.example.corpCartServer.utils.AppConstants.BCRYPT_PASS_STRENGTH;
@@ -16,7 +17,7 @@ public class AdminInitializer implements CommandLineRunner {
     private final AdminRepo adminRepo;
     private final String adminEmail;
     private final String adminPassword;
-    private final BCryptPasswordEncoder encoder;
+    private final PasswordEncoder encoder;
 
     public AdminInitializer(AdminRepo adminRepo, @Value("${ADMIN_EMAIL}") String adminEmail, @Value("${ADMIN_PASSWORD}") String adminPassword) {
         this.adminRepo = adminRepo;

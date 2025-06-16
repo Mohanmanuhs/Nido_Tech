@@ -11,22 +11,18 @@ import com.example.corpCartServer.models.Category;
 import com.example.corpCartServer.models.Product;
 import com.example.corpCartServer.repository.CategoryRepo;
 import com.example.corpCartServer.repository.ProductRepo;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class CategoryService {
 
     private final CategoryRepo categoryRepo;
-
     private final ProductRepo productRepo;
-
-    public CategoryService(CategoryRepo categoryRepo, ProductRepo productRepo) {
-        this.categoryRepo = categoryRepo;
-        this.productRepo = productRepo;
-    }
 
     public List<CategoryDto> getAllCategories() {
         return categoryRepo.findAll().stream().map(category -> CategoryMapper.categoryToDto(category, new CategoryDto())).toList();

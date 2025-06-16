@@ -14,36 +14,27 @@ import com.example.corpCartServer.repository.CustomerRepo;
 import com.example.corpCartServer.service.auth.JwtService;
 import com.example.corpCartServer.utils.CookieUtil;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 import static com.example.corpCartServer.mapper.UserMapper.getCustomer;
-import static com.example.corpCartServer.utils.AppConstants.BCRYPT_PASS_STRENGTH;
 
 @Service
+@RequiredArgsConstructor
 public class CustomerService {
 
     private final CustomerRepo customerRepo;
-
     private final AuthenticationManager authenticationManager;
-
     private final JwtService jwtService;
-
-    private final BCryptPasswordEncoder encoder;
-
-    public CustomerService(CustomerRepo customerRepo, AuthenticationManager authenticationManager, JwtService jwtService) {
-        this.customerRepo = customerRepo;
-        this.authenticationManager = authenticationManager;
-        this.jwtService = jwtService;
-        encoder = new BCryptPasswordEncoder(BCRYPT_PASS_STRENGTH);
-    }
+    private final PasswordEncoder encoder;
 
     private void createCustomer(UserRegisterRequest userRequest) {
         Customer customer = getCustomer(userRequest);

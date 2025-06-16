@@ -8,6 +8,7 @@ import com.example.corpCartServer.dto.UpdateOrderRequestDto;
 import com.example.corpCartServer.mapper.OrderMapper;
 import com.example.corpCartServer.models.Order;
 import com.example.corpCartServer.service.OrderService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -17,14 +18,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("order/")
+@RequestMapping("/orders")
+@RequiredArgsConstructor
 public class OrderController {
 
     private final OrderService orderService;
-
-    public OrderController(OrderService orderService) {
-        this.orderService = orderService;
-    }
 
     @GetMapping
     public List<OrderResponseDto> getAllOrders() {

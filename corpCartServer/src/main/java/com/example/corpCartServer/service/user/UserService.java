@@ -8,6 +8,7 @@ import com.example.corpCartServer.models.user.User;
 import com.example.corpCartServer.repository.UserRepo;
 import com.example.corpCartServer.utils.CookieUtil;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,18 +16,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import static com.example.corpCartServer.utils.AppConstants.BCRYPT_PASS_STRENGTH;
-
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
     private final UserRepo userRepo;
-    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(BCRYPT_PASS_STRENGTH);
-
-    public UserService(UserRepo userRepo) {
-        this.userRepo = userRepo;
-    }
+    private final BCryptPasswordEncoder encoder;
 
     public void changePassword(ChangePassDto changePassDto, UserDetails userDetails) {
         String email = userDetails.getUsername();
