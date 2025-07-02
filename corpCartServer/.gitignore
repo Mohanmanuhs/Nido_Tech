@@ -1,0 +1,32 @@
+# === Compiled class files ===
+target/
+build/
+
+# === Logs ===
+*.log
+
+# === System files ===
+.DS_Store
+Thumbs.db
+
+# === IDEs and editors ===
+.idea/
+
+# === Environment variables ===
+.env
+
+# === Maven ===
+.mvn/
+!/.mvn/wrapper/maven-wrapper.jar
+pom.xml.*Backup
+
+# === Gradle ===
+.gradle/
+!gradle/wrapper/gradle-wrapper.jar
+
+# === Temp files ===
+*.swp
+*.swo
+
+# Docker image tar files (if you export them)
+*.tar

@@ -5,36 +5,92 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="27cdec3c-661d-4a8a-8b64-576f80020e0f" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/corpCartServer/constants/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/corpCartServer/constants/Role.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/corpCartServer/controller/OrderController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/corpCartServer/controller/OrderController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/corpCartServer/dto/UpdateOrderRequestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/corpCartServer/dto/UpdateOrderRequestDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/corpCartServer/models/user/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/corpCartServer/models/user/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/corpCartServer/repository/CustomerRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/corpCartServer/repository/CustomerRepo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/corpCartServer/service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/corpCartServer/service/OrderService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/CorpCartServerApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/CorpCartServerApplication.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/config/AdminInitializer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/config/AdminInitializer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/config/BeanConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/config/BeanConfig.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/config/CorsConfig$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/config/CorsConfig$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/config/CorsConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/config/CorsConfig.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/config/JwtFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/config/JwtFilter.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/config/SecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/config/SecurityConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/constants/OrderStatus.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/constants/OrderStatus.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/constants/PaymentStatus.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/constants/PaymentStatus.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/constants/Role.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/constants/Role.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/controller/CartController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/controller/CartController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/controller/CategoryController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/controller/CategoryController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/controller/OrderController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/controller/OrderController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/controller/ProductController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/controller/ProductController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/controller/auth/AuthController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/controller/auth/AuthController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/controller/auth/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/controller/auth/UserController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/dto/AdminLoginRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/dto/AdminLoginRequest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/dto/CartDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/dto/CartDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/dto/CartItemDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/dto/CartItemDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/dto/CartItemRequestDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/dto/CartItemRequestDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/dto/CartItemUpdateRequestDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/dto/CartItemUpdateRequestDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/dto/CategoryDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/dto/CategoryDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/dto/ChangePassDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/dto/ChangePassDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/dto/DeleteUserByAdminRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/dto/DeleteUserByAdminRequest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/dto/OrderDetailsDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/dto/OrderDetailsDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/dto/OrderItemDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/dto/OrderItemDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/dto/OrderResponseDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/dto/OrderResponseDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/dto/PagedResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/dto/PagedResponse.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/dto/ProductDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/dto/ProductDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/dto/ProductRequestDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/dto/ProductRequestDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/dto/ProfileDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/dto/ProfileDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/dto/UpdateOrderRequestDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/dto/UpdateOrderRequestDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/dto/UserLoginRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/dto/UserLoginRequest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/dto/UserRegisterRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/dto/UserRegisterRequest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/exception/GlobalExceptionHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/exception/GlobalExceptionHandler.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/exception/ResourceAlreadyExistsException.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/exception/ResourceAlreadyExistsException.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/exception/ResourceNotFoundException.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/exception/ResourceNotFoundException.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/exception/SecurityKeyNotMatchingException.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/exception/SecurityKeyNotMatchingException.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/exception/UserAlreadyExistsException.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/exception/UserAlreadyExistsException.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/exception/UserNotActiveException.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/exception/UserNotActiveException.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/mapper/CartMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/mapper/CartMapper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/mapper/CategoryMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/mapper/CategoryMapper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/mapper/OrderMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/mapper/OrderMapper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/mapper/ProductMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/mapper/ProductMapper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/mapper/UserMapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/mapper/UserMapper.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/models/Cart.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/models/Cart.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/models/CartItem.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/models/CartItem.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/models/Category.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/models/Category.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/models/Order.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/models/Order.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/models/OrderItem.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/models/OrderItem.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/models/Product.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/models/Product.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/models/auth/UserPrincipal.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/models/auth/UserPrincipal.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/models/user/Admin.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/models/user/Admin.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/models/user/Customer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/models/user/Customer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/models/user/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/models/user/User.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/repository/AdminRepo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/repository/AdminRepo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/repository/CartItemRepo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/repository/CartItemRepo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/repository/CartRepo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/repository/CartRepo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/repository/CategoryRepo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/repository/CategoryRepo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/repository/CustomerRepo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/repository/CustomerRepo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/repository/OrderItemRepo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/repository/OrderItemRepo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/repository/OrderRepo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/repository/OrderRepo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/repository/ProductRepo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/repository/ProductRepo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/repository/UserRepo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/repository/UserRepo.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/service/CartService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/service/CartService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/service/CategoryService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/service/CategoryService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/service/OrderService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/service/OrderService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/service/ProductService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/service/ProductService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/service/auth/JwtService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/service/auth/JwtService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/service/auth/MyUserDetailsService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/service/auth/MyUserDetailsService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/service/user/AdminService$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/service/user/AdminService$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/service/user/AdminService$1.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/service/user/AdminService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/service/user/AdminService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/service/user/CustomerService$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/service/user/CustomerService$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/service/user/CustomerService$1.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/service/user/CustomerService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/service/user/CustomerService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/service/user/UserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/service/user/UserService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/specification/ProductSpecification.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/specification/ProductSpecification.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/utils/AppConstants.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/utils/AppConstants.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/utils/CookieUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/corpCartServer/utils/CookieUtil.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,6 +105,7 @@
       <list>
         <option value="Interface" />
         <option value="Class" />
+        <option value="Dockerfile" />
       </list>
     </option>
   </component>
@@ -75,6 +132,9 @@
       </MavenGeneralSettings>
     </option>
   </component>
+  <component name="MavenRunner">
+    <option name="skipTests" value="true" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5
 }</component>
@@ -85,22 +145,26 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;Application.CorpCartServerApplication.executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/mohan/.m2/repository/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Problems&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.36154553&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Application.CorpCartServerApplication.executor": "Run",
+    "Maven.corpCartServer [clean].executor": "Run",
+    "Maven.corpCartServer [install].executor": "Run",
+    "Maven.corpCartServer [package].executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/home/mohan/.m2/repository/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.36154553",
+    "settings.editor.selected.configurable": "preferences.lookFeel"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="com.example.corpCartServer.service" />
@@ -117,6 +181,12 @@
       <recent name="com.example.corpCartServer.constants" />
       <recent name="com.example.corpCartServer.models" />
     </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="mvn clean" />
+      <command value="mvn package" />
+    </option>
   </component>
   <component name="RunManager">
     <configuration name="CorpCartServerApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -152,6 +222,9 @@
       <updated>1747411431730</updated>
     </task>
     <servers />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName=".env" />
   </component>
   <component name="VcsManagerConfiguration">
     <ignored-roots>
