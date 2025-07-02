@@ -1,12 +1,11 @@
 import './App.css'
+import AddProduct from './components/AddProduct'
 
 function App() {
 
   return (
     <>
-      <div>
-        <h1 className='text-red-500 text-5xl'>Vite + React</h1>
-      </div>
+      <AddProduct></AddProduct>
     </>
   )
 }
