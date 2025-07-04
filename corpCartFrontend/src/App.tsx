@@ -1,11 +1,11 @@
 import './App.css'
-import AddProduct from './components/AddProduct'
+import Car from './components/Application'
 
 function App() {
 
   return (
     <>
-      <AddProduct></AddProduct>
+      <Car></Car>
     </>
   )
 }
