@@ -1,6 +1,7 @@
 package com.example.corpCartServer.controller;
 
 
+import com.example.corpCartServer.dto.OrderDetailsDto;
 import com.example.corpCartServer.dto.OrderResponseDto;
 import com.example.corpCartServer.dto.UpdateOrderRequestDto;
 import com.example.corpCartServer.models.auth.UserPrincipal;
@@ -34,7 +35,7 @@ public class OrderController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getOrderById(@PathVariable Long id) {
-        OrderResponseDto orderResponseDtos = orderService.getOrderDtoById(id);
+        OrderDetailsDto orderResponseDtos = orderService.getOrderDtoById(id);
         return ResponseEntity.ok(orderResponseDtos);
     }
 

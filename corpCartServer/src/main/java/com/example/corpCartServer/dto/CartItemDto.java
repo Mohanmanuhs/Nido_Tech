@@ -17,7 +17,7 @@ public class CartItemDto {
 
     private String productImageUrl;
 
-    private double cartItemPrice;
+    private Double cartItemPrice;
 
     private Integer cartItemQuantity;
 

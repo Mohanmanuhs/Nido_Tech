@@ -30,7 +30,7 @@ public class Cart {
     @JsonManagedReference
     private List<CartItem> cartItems = new ArrayList<>();
 
-    public double getTotalAmount() {
+    public Double getTotalAmount() {
         return cartItems.stream().mapToDouble(item -> item.getProduct().getProductPrice() * item.getCartItemQuantity()).sum();
     }
 }

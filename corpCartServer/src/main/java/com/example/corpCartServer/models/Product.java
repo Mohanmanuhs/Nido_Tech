@@ -26,13 +26,13 @@ public class Product {
     private String productDescription;
 
     @Column(nullable = false)
-    private double productPrice;
+    private Double productPrice;
 
     @Column(nullable = false)
     private String productImageUrl;
 
     @Column(nullable = false)
-    private boolean isDeleted = false;
+    private Boolean isDeleted = false;
 
     @ManyToOne
     @JoinColumn(name = "categoryId", nullable = false)

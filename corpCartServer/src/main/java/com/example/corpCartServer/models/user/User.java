@@ -35,7 +35,7 @@ public class User {
     private Role role;
 
     @Column(nullable = false)
-    private boolean isActive = true;
+    private Boolean isActive = true;
 
     @Override
     public boolean equals(Object o) {

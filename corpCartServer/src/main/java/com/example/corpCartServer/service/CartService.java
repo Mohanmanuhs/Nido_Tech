@@ -59,7 +59,6 @@ public class CartService {
             return newItem;
         });
         item.setCartItemQuantity(dto.getCartItemQuantity());
-        item.setCartItemPrice(dto.getCartItemQuantity() * product.getProductPrice());
         cartItemRepo.save(item);
     }
 
@@ -67,7 +66,6 @@ public class CartService {
         String email = userDetails.getUsername();
         CartItem item = getCartItem(email, dto.getCartItemId());
         item.setCartItemQuantity(dto.getCartItemQuantity());
-        item.setCartItemPrice(dto.getCartItemQuantity() * item.getProduct().getProductPrice());
         cartItemRepo.save(item);
     }
 

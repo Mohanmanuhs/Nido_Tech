@@ -34,7 +34,7 @@ public class Order {
     private LocalDateTime orderDate;
 
     @Column(nullable = false)
-    private double totalAmount;
+    private Double totalAmount;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)

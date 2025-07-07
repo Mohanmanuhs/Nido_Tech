@@ -3,6 +3,7 @@ package com.example.corpCartServer.service;
 
 import com.example.corpCartServer.constants.OrderStatus;
 import com.example.corpCartServer.constants.PaymentStatus;
+import com.example.corpCartServer.dto.OrderDetailsDto;
 import com.example.corpCartServer.dto.OrderResponseDto;
 import com.example.corpCartServer.dto.UpdateOrderRequestDto;
 import com.example.corpCartServer.exception.ResourceNotFoundException;
@@ -45,11 +46,10 @@ public class OrderService {
         ).toList();
     }
 
-    public OrderResponseDto getOrderDtoById(Long id) {
+    public OrderDetailsDto getOrderDtoById(Long id) {
         Order order = getOrderById(id);
-
         return OrderMapper.orderToDto(
-                order,new OrderResponseDto()
+                order,new OrderDetailsDto()
         );
     }
 

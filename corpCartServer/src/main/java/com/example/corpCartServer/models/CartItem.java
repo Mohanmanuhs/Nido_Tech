@@ -29,6 +29,7 @@ public class CartItem {
     @Column(nullable = false)
     private Integer cartItemQuantity;
 
-    @Column(nullable = false)
-    private double cartItemPrice;
+    public Double getCartItemPrice() {
+        return product.getProductPrice()*cartItemQuantity;
+    }
 }
