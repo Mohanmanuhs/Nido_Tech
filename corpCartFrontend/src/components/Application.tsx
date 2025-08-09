@@ -1,7 +1,6 @@
-import { useState, useEffect } from 'react';
-import { ShoppingCart, Heart, Filter, Star, Eye, ChevronDown } from 'lucide-react';
+import { useState } from 'react';
+import { Filter, ChevronDown } from 'lucide-react';
 import Footer from './Footer';
-import Header from './Header';
 import NewsLetter from './NewsLetter';
 import Hero from './Hero';
 import ProductCard from './ProductCard';
