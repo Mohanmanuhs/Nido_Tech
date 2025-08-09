@@ -1,7 +1,7 @@
 import CartPage from "./CartPage";
 
 const sampleCart = {
-  totalAmount: 0, // not needed now, will be calculated
+  totalAmount: 0, 
   cartItemDtos: [
     {
       cartItemId: 1,
