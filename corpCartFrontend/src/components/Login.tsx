@@ -1,13 +1,30 @@
 import { useState } from "react";
+import api from "../api/axios";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Replace with actual auth logic
-    console.log("Logging in with", { email, password });
+    
+    try {
+      const response = await api.post(
+        '/login',
+        { email, password },
+        {
+          withCredentials: true,
+        }
+      );
+
+      console.log("Login successful:", response.data);
+    } catch (error: any) {
+      if (error.response) {
+        console.error("Login failed:", error.response.data);
+      } else {
+        console.error("Login error:", error.message);
+      }
+    }
   };
 
   return (
