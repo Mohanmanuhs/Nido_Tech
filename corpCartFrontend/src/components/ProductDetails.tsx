@@ -1,11 +1,5 @@
-type ProductDto = {
-  productId: number;
-  productName: string;
-  productDescription: string;
-  productPrice: number;
-  productImageUrl: string;
-  categoryName: string;
-};
+import type { ProductDto } from "../types/Product";
+
 
 const ProductDetails = ({ product }: { product: ProductDto }) => {
   return (

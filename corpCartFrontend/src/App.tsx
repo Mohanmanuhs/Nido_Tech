@@ -1,5 +1,5 @@
 import './App.css'
-import Car from './components/ProductPage'
+import Car from './components/OrdersPage'
 
 function App() {
 

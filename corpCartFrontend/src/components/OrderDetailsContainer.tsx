@@ -1,15 +1,13 @@
+import { OrderStatus, PaymentStatus } from "../types/Order";
 import OrderDetailsPage from "./OrderDetailsPage";
-
-type OrderStatus = 'PENDING' | 'SHIPPED' | 'DELIVERED' | 'CANCELLED';
-type PaymentStatus = 'PAID' | 'UNPAID' | 'FAILED';
 
 const sampleOrderDetails = {
   orderDto: {
     orderId: 12345,
     orderDate: "2025-07-02T10:45:00",
     totalAmount: 5898.0,
-    orderStatus: "DELIVERED" as OrderStatus,
-    paymentStatus: "PAID" as PaymentStatus,
+    orderStatus: OrderStatus.DELIVERED,
+    paymentStatus: PaymentStatus.PAID,
     expectedDeliveryDate: "2025-07-05",
   },
   orderItemDtos: [

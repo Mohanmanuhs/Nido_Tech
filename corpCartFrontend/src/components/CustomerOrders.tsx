@@ -1,14 +1,4 @@
-type OrderStatus = 'PENDING' | 'SHIPPED' | 'DELIVERED' | 'CANCELLED';
-type PaymentStatus = 'PAID' | 'UNPAID' | 'FAILED';
-
-type OrderResponseDto = {
-  orderId: number;
-  orderDate: string; // ISO string
-  totalAmount: number;
-  orderStatus: OrderStatus;
-  paymentStatus: PaymentStatus;
-  expectedDeliveryDate: string; // ISO date
-};
+import { PaymentStatus, type OrderResponseDto } from "../types/Order";
 
 const CustomerOrders = ({ orders }: { orders: OrderResponseDto[] }) => {
   return (
@@ -40,7 +30,7 @@ const CustomerOrders = ({ orders }: { orders: OrderResponseDto[] }) => {
                 Payment:{" "}
                 <span
                   className={`font-medium ${
-                    order.paymentStatus === "PAID"
+                    order.paymentStatus == PaymentStatus.PAID
                       ? "text-green-400"
                       : "text-red-400"
                   }`}

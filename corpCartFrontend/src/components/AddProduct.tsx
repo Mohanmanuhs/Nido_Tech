@@ -1,4 +1,5 @@
 import { useState } from "react";
+import api from "../api/axios";
 
 const AddProduct = () => {
   const [form, setForm] = useState({
@@ -16,7 +17,7 @@ const AddProduct = () => {
     setErrors({ ...errors, [e.target.name]: "" });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const newErrors: typeof errors = {};
@@ -29,8 +30,22 @@ const AddProduct = () => {
       return;
     }
 
-    // Submit logic here
-    console.log("Product Submitted:", form);
+    try {
+      const response = await api.post(
+        '/addProduct',
+        form,
+        {
+          withCredentials: true,
+        }
+      );
+      console.log("Product created successful:", response.data);
+    } catch (error: any) {
+      if (error.response) {
+        console.error("Product creation failed:", error.response.data);
+      } else {
+        console.error("Product creation error:", error.message);
+      }
+    }
   };
 
   return (

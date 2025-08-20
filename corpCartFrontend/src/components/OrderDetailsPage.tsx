@@ -1,28 +1,4 @@
-type OrderStatus = 'PENDING' | 'SHIPPED' | 'DELIVERED' | 'CANCELLED';
-type PaymentStatus = 'PAID' | 'UNPAID' | 'FAILED';
-
-type OrderResponseDto = {
-  orderId: number;
-  orderDate: string;
-  totalAmount: number;
-  orderStatus: string; // or OrderStatus
-  paymentStatus: string; // or PaymentStatus
-  expectedDeliveryDate: string;
-};
-
-type OrderItemDto = {
-  orderItemId: number;
-  orderItemQuantity: number;
-  orderItemPrice: number;
-  productId: number;
-  productName: string;
-  productImageUrl: string;
-};
-
-type OrderDetailsDto = {
-  orderDto: OrderResponseDto;
-  orderItemDtos: OrderItemDto[];
-};
+import { PaymentStatus, type OrderDetailsDto } from "../types/Order";
 
 const OrderDetailsPage = ({ orderDetails }: { orderDetails: OrderDetailsDto }) => {
   const { orderDto, orderItemDtos } = orderDetails;
@@ -46,7 +22,7 @@ const OrderDetailsPage = ({ orderDetails }: { orderDetails: OrderDetailsDto }) =
             Payment Status:{" "}
             <span
               className={`font-medium ${
-                orderDto.paymentStatus === "PAID" ? "text-green-400" : "text-red-400"
+                orderDto.paymentStatus == PaymentStatus.PAID ? "text-green-400" : "text-red-400"
               }`}
             >
               {orderDto.paymentStatus}

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import api from "../api/axios";
 
 const Signup = () => {
   const [form, setForm] = useState({
@@ -27,16 +28,29 @@ const Signup = () => {
     setErrors({ ...errors, [e.target.name]: "" });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const newErrors = validate();
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
-
-    console.log("Signup data:", form);
-    // axios.post('/api/signup', form)
+    try {
+      const response = await api.post(
+        '/register',
+        form,
+        {
+          withCredentials: true,
+        }
+      );
+      console.log("Register successful:", response.data);
+    } catch (error: any) {
+      if (error.response) {
+        console.error("Register failed:", error.response.data);
+      } else {
+        console.error("Register error:", error.message);
+      }
+    }
   };
 
   return (

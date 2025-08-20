@@ -1,4 +1,5 @@
 import { useState } from "react";
+import api from "../api/axios";
 
 const AddCategory = () => {
   const [form, setForm] = useState({
@@ -13,7 +14,7 @@ const AddCategory = () => {
     setErrors({ ...errors, [e.target.name]: "" });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const newErrors: typeof errors = {};
@@ -24,9 +25,23 @@ const AddCategory = () => {
       setErrors(newErrors);
       return;
     }
+    try {
+      const response = await api.post(
+        '/addCategory',
+        form,
+        {
+          withCredentials: true,
+        }
+      );
 
-    // Submit logic here (e.g. axios.post)
-    console.log("Category submitted:", form);
+      console.log("Category created successful:", response.data);
+    } catch (error: any) {
+      if (error.response) {
+        console.error("Category creation failed:", error.response.data);
+      } else {
+        console.error("Category creation error:", error.message);
+      }
+    }
   };
 
   return (
