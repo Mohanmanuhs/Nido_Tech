@@ -1,28 +1,38 @@
 import { useState } from "react";
 import api from "../api/axios";
+import { useParams } from "react-router-dom";
 
 const Login = () => {
+  const { role } = useParams();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [securityKey, setSecurityKey] = useState("");
+
+  const isAdmin = role === "admin";
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
+      let requestBody;
+      if(isAdmin){
+        requestBody = {email,password,securityKey};
+      }else{
+        requestBody = {email,password};
+      }
       const response = await api.post(
-        '/login',
-        { email, password },
+        `users/${isAdmin?"adminLogin":"login"}`,
+        requestBody,
         {
           withCredentials: true,
         }
       );
-
       console.log("Login successful:", response.data);
     } catch (error: any) {
       if (error.response) {
-        console.error("Login failed:", error.response.data);
+        console.error("Login failed:", error);
       } else {
-        console.error("Login error:", error.message);
+        console.error("Login error:", error);
       }
     }
   };
@@ -62,6 +72,22 @@ const Login = () => {
               placeholder="••••••••"
             />
           </div>
+
+          {isAdmin && (
+            <div>
+              <label className="block text-sm text-gray-600 dark:text-gray-300 mb-1">
+                Security Key
+              </label>
+              <input
+                type="password"
+                className="w-full px-4 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                value={securityKey}
+                onChange={(e) => setSecurityKey(e.target.value)}
+                required
+                placeholder="••••••••"
+              />
+            </div>
+          )}
 
           <button
             type="submit"

@@ -1,14 +1,12 @@
 import { useState } from 'react';
-import { Filter, ChevronDown } from 'lucide-react';
 import Footer from './Footer';
 import NewsLetter from './NewsLetter';
 import Hero from './Hero';
 import ProductCard from './ProductCard';
-import HeaderWrapper from './HeaderWrapper';
+import HeaderMain from './HeaderMain';
 
 const Application = () => {
   const [favorites, setFavorites] = useState(new Set());
-  const [sortBy, setSortBy] = useState('featured');
   const [cartCount, setCartCount] = useState(3);
 
   const addToCart = () => setCartCount(prev => prev + 1);
@@ -60,36 +58,15 @@ const Application = () => {
 
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
-      <HeaderWrapper></HeaderWrapper>
+      <HeaderMain></HeaderMain>
       <Hero></Hero>
 
       {/* Products Section */}
-      <section className="mx-auto px-15 py-20">
+      <section className="mx-auto px-5 py-10">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-16">
           <div>
             <h2 className="text-5xl font-black text-gray-900 mb-4">Featured Products</h2>
             <p className="text-xl text-gray-600">Discover our handpicked selection</p>
-          </div>
-
-          <div className="flex items-center space-x-4 mt-8 md:mt-0">
-            <button className="flex items-center space-x-3 px-8 py-4 bg-white/80 border rounded-2xl hover:bg-white hover:shadow-xl transition-all duration-300">
-              <Filter size={20} />
-              <span>Filters</span>
-            </button>
-
-            <div className="relative">
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="appearance-none bg-white/80 border rounded-2xl pl-6 pr-12 py-4 focus:outline-none focus:ring-4 focus:ring-purple-500/30"
-              >
-                <option value="featured">Sort by: Featured</option>
-                <option value="price-low">Price: Low to High</option>
-                <option value="price-high">Price: High to Low</option>
-                <option value="rating">Highest Rated</option>
-              </select>
-              <ChevronDown className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none" size={20} />
-            </div>
           </div>
         </div>
 

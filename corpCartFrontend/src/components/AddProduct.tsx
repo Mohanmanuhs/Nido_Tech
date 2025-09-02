@@ -32,7 +32,7 @@ const AddProduct = () => {
 
     try {
       const response = await api.post(
-        '/addProduct',
+        'products',
         form,
         {
           withCredentials: true,

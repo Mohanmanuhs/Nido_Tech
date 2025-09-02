@@ -3,8 +3,8 @@ import api from "../api/axios";
 
 const AddCategory = () => {
   const [form, setForm] = useState({
-    categoryImage: "",
     categoryName: "",
+    categoryImage: "",
   });
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
@@ -27,13 +27,12 @@ const AddCategory = () => {
     }
     try {
       const response = await api.post(
-        '/addCategory',
+        '/categories',
         form,
         {
           withCredentials: true,
         }
       );
-
       console.log("Category created successful:", response.data);
     } catch (error: any) {
       if (error.response) {

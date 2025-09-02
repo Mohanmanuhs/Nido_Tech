@@ -1,5 +1,7 @@
 import { useState } from "react";
 import api from "../api/axios";
+import { useParams } from "react-router-dom";
+import type { SignUpRequestBody } from "../types/Signup";
 
 const Signup = () => {
   const [form, setForm] = useState({
@@ -11,6 +13,8 @@ const Signup = () => {
     companyName: "",
     securityKey: "",
   });
+  const { role } = useParams();
+  const isAdmin = role === "admin";
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
@@ -36,9 +40,21 @@ const Signup = () => {
       return;
     }
     try {
+      let requestBody: SignUpRequestBody = {
+        name: form.name,
+        email: form.email,
+        password: form.password,
+      };
+
+      if (isAdmin) {
+        requestBody = { ...requestBody, securityKey: form.securityKey };
+      } else {
+        requestBody = { ...requestBody, address: form.address, phone: form.phone, companyName: form.companyName, }
+      }
+
       const response = await api.post(
-        '/register',
-        form,
+        `users/${isAdmin ? "adminRegister" : "register"}`,
+        requestBody,
         {
           withCredentials: true,
         }
@@ -60,28 +76,54 @@ const Signup = () => {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {[
-            { label: "Email", name: "email", type: "email" },
             { label: "Name", name: "name", type: "text" },
-            { label: "Address", name: "address", type: "text" },
+            { label: "Email", name: "email", type: "email" },
             { label: "Password", name: "password", type: "password" },
-            { label: "Phone", name: "phone", type: "tel" },
-            { label: "Company Name", name: "companyName", type: "text" },
-            { label: "Security Key", name: "securityKey", type: "text" },
-          ].map((field) => (
-            <div key={field.name}>
-              <label className="block text-sm text-gray-600 dark:text-gray-300 mb-1">{field.label}</label>
-              <input
-                type={field.type}
-                name={field.name}
-                value={form[field.name as keyof typeof form]}
-                onChange={handleChange}
-              className="w-full px-4 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-              {errors[field.name] && (
-                <p className="text-sm text-red-500 mt-1">{errors[field.name]}</p>
-              )}
-            </div>
-          ))}
+            isAdmin ? { label: "Security Key", name: "securityKey", type: "text" } : null,
+          ]
+            .filter(Boolean)
+            .map((field) => (
+              <div key={field!.name}>
+                <label className="block text-sm text-gray-600 dark:text-gray-300 mb-1">
+                  {field!.label}
+                </label>
+                <input
+                  type={field!.type}
+                  name={field!.name}
+                  value={form[field!.name as keyof typeof form] || ""}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                {errors[field!.name] && (
+                  <p className="text-sm text-red-500 mt-1">{errors[field!.name]}</p>
+                )}
+              </div>
+            ))}
+          {!isAdmin && (
+            <>
+              {[
+                { label: "Address", name: "address", type: "text" },
+                { label: "Phone", name: "phone", type: "tel" },
+                { label: "Company Name", name: "companyName", type: "text" },
+              ]
+                .map((field) => (
+                  <div key={field.name}>
+                    <label className="block text-sm text-gray-600 dark:text-gray-300 mb-1">
+                      {field.label}
+                    </label>
+                    <input
+                      type={field.type}
+                      name={field.name}
+                      value={form[field.name as keyof typeof form] || ""}
+                      onChange={handleChange}
+                      className="w-full px-4 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                    {errors[field.name] && (
+                      <p className="text-sm text-red-500 mt-1">{errors[field.name]}</p>
+                    )}
+                  </div>
+                ))}</>
+          )}
 
           <button
             type="submit"
