@@ -70,7 +70,7 @@ public class ProductService {
 
     public void deactivateProduct(Long id) {
         Product product = getProductById(id);
-        product.setDeleted(true);
+        product.setIsDeleted(true);
         productRepo.save(product);
     }
 

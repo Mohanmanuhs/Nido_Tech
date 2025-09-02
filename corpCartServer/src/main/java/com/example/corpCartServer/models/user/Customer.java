@@ -16,6 +16,7 @@ import java.util.List;
 @Setter
 @ToString
 @Entity
+@Table(name = "customer")
 public class Customer extends User {
 
     @Column(nullable = false)

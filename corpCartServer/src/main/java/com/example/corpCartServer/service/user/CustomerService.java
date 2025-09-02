@@ -7,6 +7,7 @@ import com.example.corpCartServer.exception.ResourceNotFoundException;
 import com.example.corpCartServer.exception.UserAlreadyExistsException;
 import com.example.corpCartServer.exception.UserNotActiveException;
 import com.example.corpCartServer.mapper.CartMapper;
+import com.example.corpCartServer.mapper.UserMapper;
 import com.example.corpCartServer.models.Cart;
 import com.example.corpCartServer.models.user.Customer;
 import com.example.corpCartServer.models.user.User;
@@ -25,8 +26,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-import static com.example.corpCartServer.mapper.UserMapper.getCustomer;
-
 @Service
 @RequiredArgsConstructor
 public class CustomerService {
@@ -37,7 +36,7 @@ public class CustomerService {
     private final PasswordEncoder encoder;
 
     private void createCustomer(UserRegisterRequest userRequest) {
-        Customer customer = getCustomer(userRequest);
+        Customer customer = UserMapper.getCustomer(userRequest);
         Cart cart = new Cart();
         cart.setCustomer(customer);
         customer.setCart(cart);
@@ -47,8 +46,7 @@ public class CustomerService {
 
     public void loginCustomer(UserLoginRequest userRequest, HttpServletResponse response) {
         User user = findByEmail(userRequest.getEmail());
-
-        if (user == null || !user.isActive()) {
+        if (user == null || !user.getIsActive()) {
             throw new UserNotActiveException("User not found or inactive");
         }
 
@@ -66,20 +64,18 @@ public class CustomerService {
         if (findByEmail(userRequest.getEmail()) != null) {
             throw new UserAlreadyExistsException("User already exists with email: " + userRequest.getEmail());
         }
-
-        if (userRequest.getRole() == null) {
-            throw new IllegalArgumentException("User role must be provided");
-        }
-
-        switch (userRequest.getRole()) {
-            case CUSTOMER -> createCustomer(userRequest);
-            case ADMIN -> throw new IllegalArgumentException("Only customers can register themselves");
-            default -> throw new IllegalArgumentException("Invalid role: " + userRequest.getRole());
-        }
+        createCustomer(userRequest);
     }
 
     public Customer findByEmail(String email) {
-        return customerRepo.findByEmail(email);
+        System.out.println(email);
+        Customer customer = customerRepo.findByEmail(email);
+        if (customer == null) {
+            System.out.println("No customer found with email: " + email);
+        } else {
+            System.out.println("Found customer: " + customer.getName());
+        }
+        return customer;
     }
 
     public CartDto getCartByUserId(UserDetails userDetails) {

@@ -28,7 +28,7 @@ public class UserService {
         String email = userDetails.getUsername();
         changePassDto.setEmail(email);
         User user = userRepo.findByEmail(changePassDto.getEmail());
-        if (user == null || !user.isActive()) {
+        if (user == null || !user.getIsActive()) {
             throw new UserNotActiveException("user with this email not found");
         } else if (!encoder.matches(changePassDto.getOldPassword(), user.getPassword())) {
             throw new BadCredentialsException("password don't match old password");
@@ -41,9 +41,9 @@ public class UserService {
         String email = userDetails.getUsername();
         User user = findByEmail(email);
 
-        if (user == null || !user.isActive()) throw new UserNotActiveException("User not found with email: " + email);
+        if (user == null || !user.getIsActive()) throw new UserNotActiveException("User not found with email: " + email);
 
-        user.setActive(false);
+        user.setIsActive(false);
         userRepo.save(user);
         CookieUtil.clearJwtCookie(response);
     }
@@ -51,7 +51,7 @@ public class UserService {
     public void deleteUserByAdmin(HttpServletResponse response, String email) {
         User user = findByEmail(email);
 
-        if (user == null || !user.isActive()) throw new UserNotActiveException("User not found with email: " + email);
+        if (user == null || !user.getIsActive()) throw new UserNotActiveException("User not found with email: " + email);
 
         userRepo.delete(user);
         CookieUtil.clearJwtCookie(response);
@@ -65,7 +65,7 @@ public class UserService {
             String email = userDetails.getUsername();
             User user = findByEmail(email);
 
-            if (user == null || !user.isActive())
+            if (user == null || !user.getIsActive())
                 throw new UserNotActiveException("User not found with email: " + email);
 
             return user.getRole().name();

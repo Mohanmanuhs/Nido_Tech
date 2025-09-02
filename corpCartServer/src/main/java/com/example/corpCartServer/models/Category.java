@@ -22,6 +22,9 @@ public class Category {
     @Column(nullable = false, unique = true)
     private String categoryName;
 
+    @Column(nullable = false)
+    private String categoryImage;
+
     @OneToMany(mappedBy = "category", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JsonManagedReference
     private List<Product> products = new ArrayList<>();

@@ -1,6 +1,7 @@
 package com.example.corpCartServer.mapper;
 
 import com.example.corpCartServer.constants.Role;
+import com.example.corpCartServer.dto.AdminRegisterRequest;
 import com.example.corpCartServer.dto.ProfileDto;
 import com.example.corpCartServer.dto.UserRegisterRequest;
 import com.example.corpCartServer.models.user.Admin;
@@ -17,7 +18,7 @@ public class UserMapper {
         return profileDto;
     }
 
-    public static Admin getAdmin(UserRegisterRequest userRequest) {
+    public static Admin getAdmin(AdminRegisterRequest userRequest) {
         Admin admin = new Admin();
         admin.setEmail(userRequest.getEmail());
         admin.setName(userRequest.getName());

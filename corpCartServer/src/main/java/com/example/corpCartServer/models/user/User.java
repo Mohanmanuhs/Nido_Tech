@@ -1,7 +1,6 @@
 package com.example.corpCartServer.models.user;
 
 import com.example.corpCartServer.constants.Role;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -28,7 +27,6 @@ public class User {
     private String name;
 
     @Column(nullable = false)
-    @JsonIgnore
     private String password;
 
     @Column(nullable = false)

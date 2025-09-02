@@ -33,7 +33,7 @@ public class UserController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/registerAdmin")
-    public ResponseEntity<?> addAdmin(@RequestBody @Valid UserRegisterRequest userRequest, @AuthenticationPrincipal UserPrincipal userDetails) {
+    public ResponseEntity<?> addAdmin(@RequestBody @Valid AdminRegisterRequest userRequest, @AuthenticationPrincipal UserPrincipal userDetails) {
         adminService.registerAdmin(userRequest, userDetails);
         return ResponseEntity.ok("admin created successfully");
     }

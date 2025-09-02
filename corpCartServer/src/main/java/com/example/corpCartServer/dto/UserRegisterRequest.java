@@ -1,6 +1,5 @@
 package com.example.corpCartServer.dto;
 
-import com.example.corpCartServer.constants.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -29,10 +28,6 @@ public class UserRegisterRequest {
 
     private String phone;
 
-    private Role role;
-
     private String companyName;
-
-    private String securityKey;
 
 }

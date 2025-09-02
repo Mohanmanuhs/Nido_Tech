@@ -2,7 +2,7 @@ package com.example.corpCartServer.service.user;
 
 import com.example.corpCartServer.constants.Role;
 import com.example.corpCartServer.dto.AdminLoginRequest;
-import com.example.corpCartServer.dto.UserRegisterRequest;
+import com.example.corpCartServer.dto.AdminRegisterRequest;
 import com.example.corpCartServer.exception.SecurityKeyNotMatchingException;
 import com.example.corpCartServer.exception.UserAlreadyExistsException;
 import com.example.corpCartServer.exception.UserNotActiveException;
@@ -32,23 +32,14 @@ public class AdminService {
     private final JwtService jwtService;
     private final PasswordEncoder encoder;
 
-    public void registerAdmin(UserRegisterRequest userRequest, UserDetails userDetails) {
+    public void registerAdmin(AdminRegisterRequest userRequest, UserDetails userDetails) {
         if (findByEmail(userRequest.getEmail()) != null) {
             throw new UserAlreadyExistsException("User already exists with email: " + userRequest.getEmail());
         }
-
-        if (userRequest.getRole() == null) {
-            throw new IllegalArgumentException("User role must be provided");
-        }
-
-        switch (userRequest.getRole()) {
-            case CUSTOMER -> throw new IllegalArgumentException("admin can register only new admin");
-            case ADMIN -> createAdmin(userRequest, userDetails);
-            default -> throw new IllegalArgumentException("Invalid role: " + userRequest.getRole());
-        }
+        createAdmin(userRequest, userDetails);
     }
 
-    private void createAdmin(UserRegisterRequest userRequest, UserDetails userDetails) {
+    private void createAdmin(AdminRegisterRequest userRequest, UserDetails userDetails) {
         String email = userDetails.getUsername();
         User user = findByEmail(email);
         Admin oldAdmin = (Admin) user;
@@ -63,7 +54,7 @@ public class AdminService {
     public void loginAdmin(AdminLoginRequest userRequest, HttpServletResponse response) {
         User user = findByEmail(userRequest.getEmail());
 
-        if (user == null || !user.isActive()) {
+        if (user == null || !user.getIsActive()) {
             throw new UserNotActiveException("User not found or inactive");
         }
 

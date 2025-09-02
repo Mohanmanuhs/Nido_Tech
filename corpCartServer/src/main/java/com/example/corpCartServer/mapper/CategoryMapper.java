@@ -9,12 +9,14 @@ public class CategoryMapper {
         if (dto==null || category == null) return null;
         dto.setCategoryId(category.getCategoryId());
         dto.setCategoryName(category.getCategoryName());
+        dto.setCategoryImage(category.getCategoryImage());
         return dto;
     }
 
     public static Category dtoToCategory(CategoryDto dto,Category category) {
         if (dto == null || category == null) return null;
         category.setCategoryName(dto.getCategoryName());
+        category.setCategoryImage(dto.getCategoryImage());
         return category;
     }
 }

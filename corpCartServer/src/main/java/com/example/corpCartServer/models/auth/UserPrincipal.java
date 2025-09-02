@@ -21,7 +21,7 @@ public class UserPrincipal implements UserDetails {
         this.email = user.getEmail();
         this.password = user.getPassword();
         this.role = user.getRole();
-        this.isActive = user.isActive();
+        this.isActive = user.getIsActive();
     }
 
     @Override
