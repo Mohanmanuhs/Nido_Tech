@@ -4,11 +4,6 @@ export default function Hero() {
   return (
     <>
     <section className="bg-gradient-to-br from-gray-900 to-indigo-900 text-white relative overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute top-10 left-10 w-60 h-60 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-10 right-10 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
-        </div>
-
         <div className="relative max-w-5xl mx-auto px-4 py-10 text-center text-white">
           <h1 className="text-4xl md:text-6xl font-black mb-6 leading-tight">
             Where{' '}
